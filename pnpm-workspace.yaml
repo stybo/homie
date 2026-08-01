@@ -1,0 +1,21 @@
+packages:
+  - apps/*
+  - packages/*
+
+catalogMode: manual
+
+catalog:
+  vite: npm:@voidzero-dev/vite-plus-core@^0.2.6
+  vite-plus: ^0.2.6
+overrides:
+  vite: "catalog:"
+peerDependencyRules:
+  allowAny:
+    - vite
+  allowedVersions:
+    vite: "*"
+
+allowBuilds:
+  "@heroui-pro/react": true
+  "@zowe/secrets-for-zowe-sdk": true
+  heroui-pro: true

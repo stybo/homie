@@ -1,0 +1,19 @@
+{
+	"name": "backend",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"main": "app.ts",
+	"scripts": {
+		"dev": "node --watch src/app.ts",
+		"serve": "node src/app.ts"
+	},
+	"dependencies": {
+		"dotenv": "^17.4.2",
+		"express": "^5.2.1"
+	},
+	"devDependencies": {
+		"@types/express": "^5.0.6",
+		"@types/node": "^26.1.2"
+	}
+}

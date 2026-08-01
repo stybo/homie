@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@import "@heroui/styles";
+@import "@heroui-pro/react/css";
+
+:root {
+	.kpi__chart {
+		--kpi-chart-fade: 5%;
+	}
+}
