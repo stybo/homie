@@ -5,10 +5,10 @@ packages:
 catalogMode: manual
 
 catalog:
-  vite: npm:@voidzero-dev/vite-plus-core@^0.2.6
-  vite-plus: ^0.2.6
+  vite: npm:@voidzero-dev/vite-plus-core@0.3.0
+  vite-plus: 0.3.0
 overrides:
-  vite: "catalog:"
+  vite@*: "catalog:"
 peerDependencyRules:
   allowAny:
     - vite
@@ -17,5 +17,6 @@ peerDependencyRules:
 
 allowBuilds:
   "@heroui-pro/react": true
+  "@sentry/node-cpu-profiler": true
   "@zowe/secrets-for-zowe-sdk": true
   heroui-pro: true

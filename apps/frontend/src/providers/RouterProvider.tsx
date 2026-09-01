@@ -1,9 +1,8 @@
-import { createRouter, RouterProvider as TanstackRouterProvider } from "@tanstack/react-router";
-
+import { RouterProvider as TanstackRouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "../routeTree.gen.ts";
 import { queryClient } from "./QueryClientProvider.tsx";
 
-export const router = createRouter({ routeTree, context: { queryClient } });
+export const router = createRouter({ context: { queryClient }, routeTree });
 
 declare module "@tanstack/react-router" {
 	interface Register {
@@ -12,5 +11,5 @@ declare module "@tanstack/react-router" {
 }
 
 export function RouterProvider() {
-	return <TanstackRouterProvider router={router}></TanstackRouterProvider>;
+	return <TanstackRouterProvider router={router} />;
 }
