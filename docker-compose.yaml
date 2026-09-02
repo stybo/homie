@@ -1,0 +1,28 @@
+services:
+  frontend:
+    container_name: homie-frontend
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  backend:
+    container_name: homie-backend
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+      # Pass through environment variables from your root .env file:
+      - PROXMOX_TOKEN=${PROXMOX_TOKEN}
+    env_file:
+      - apps/backend/.env
+    restart: unless-stopped
