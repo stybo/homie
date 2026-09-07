@@ -11,31 +11,18 @@ export default function ServerStatKpiCard({ data, metric, className }: ServerSta
 
 	// 2. Resolve Metric Configuration directly
 	const preset = METRIC_CONFIGS[metric];
-	const {
-		title,
-		icon,
-		style,
-		unit,
-		chartColor,
-		series,
-		maximumFractionDigits,
-		dataKey,
-		transformValue,
-		formatValue,
-		getStatus,
-		tooltipFormatter,
-	} = preset;
+	const { title, icon, style, unit, chartColor, series, maximumFractionDigits, dataKey, transformValue, formatValue, tooltipFormatter } =
+		preset;
 
-	// 3. Compute Value & Status via Config
+	// 3. Compute Value via Config
 	const rawValue = latestPoint?.[dataKey] ?? 0;
 	const displayValue = transformValue ? transformValue(rawValue, latestPoint) : rawValue;
 	const formattedCustomValue = formatValue ? formatValue(rawValue, latestPoint) : undefined;
-	const status = getStatus ? getStatus(rawValue, latestPoint) : undefined;
 
 	return (
 		<KPI className={className}>
 			<KPI.Header>
-				<KPI.Icon status={status}>{icon}</KPI.Icon>
+				<KPI.Icon className="bg-zinc-200/80 text-zinc-700 dark:bg-emerald-500/15 dark:text-emerald-400">{icon}</KPI.Icon>
 				<KPI.Title>{title}</KPI.Title>
 			</KPI.Header>
 
