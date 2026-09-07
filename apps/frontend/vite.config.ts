@@ -5,7 +5,6 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite-plus";
 
 export default defineConfig({
-	root: import.meta.dirname,
 	run: {
 		tasks: {
 			build: "vp build",
@@ -13,10 +12,11 @@ export default defineConfig({
 			preview: "vp preview --host",
 		},
 	},
-	plugins: [devtools(), tanstackRouter({ autoCodeSplitting: true, target: "react" }), tailwindcss(), react({ compiler: true })],
 	server: {
 		proxy: {
 			"/api": "http://localhost:10000/",
 		},
 	},
+	plugins: [devtools(), tanstackRouter({ autoCodeSplitting: true, target: "react" }), tailwindcss(), react({ compiler: true })],
+	root: import.meta.dirname,
 });
