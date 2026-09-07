@@ -9,17 +9,6 @@ RUN vp -C apps/frontend build
 # Production stage
 FROM nginx:alpine
 COPY --from=build /app/apps/frontend/dist /usr/share/nginx/html
-RUN cat <<'EOF' > /etc/nginx/conf.d/default.conf
-server {
-    listen 80;
-    server_name localhost;
-    root /usr/share/nginx/html;
-    index index.html;
-
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
-}
-EOF
+COPY apps/frontend/.nginx/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

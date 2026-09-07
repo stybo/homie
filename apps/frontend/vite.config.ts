@@ -13,15 +13,10 @@ export default defineConfig({
 			preview: "vp preview --host",
 		},
 	},
-	plugins: [
-		devtools(),
-		tanstackRouter({ autoCodeSplitting: true, target: "react" }),
-		tailwindcss(),
-		react({ compiler: true }),
-	],
+	plugins: [devtools(), tanstackRouter({ autoCodeSplitting: true, target: "react" }), tailwindcss(), react({ compiler: true })],
 	server: {
 		proxy: {
-			"/api": "http://localhost:3000/",
+			"/api": "http://localhost:10000/",
 		},
 	},
 });

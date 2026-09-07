@@ -16,13 +16,9 @@ services:
       context: .
       dockerfile: apps/backend/Dockerfile
     ports:
-      - "3000:3000"
+      - "10000:10000"
     environment:
       - NODE_ENV=production
-      - PORT=3000
-      - HOSTNAME=0.0.0.0
-      # Pass through environment variables from your root .env file:
-      - PROXMOX_TOKEN=${PROXMOX_TOKEN}
     env_file:
       - apps/backend/.env
     restart: unless-stopped
