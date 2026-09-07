@@ -10,7 +10,7 @@ export interface MultiSeriesChartProps {
 	tooltipFormatter: MetricConfig["tooltipFormatter"];
 }
 
-export function MultiSeriesChart({ data, series, title, tooltipFormatter }: MultiSeriesChartProps) {
+export function MultiSeriesChart({ title, data, series, tooltipFormatter }: MultiSeriesChartProps) {
 	return (
 		<AreaChart data={data} height={70} margin={{ bottom: 0, left: 0, right: 0, top: 4 }}>
 			{series.map((s) => (

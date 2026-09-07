@@ -5,25 +5,25 @@ import { MultiSeriesChart } from "./multi-series-chart.tsx";
 import { SingleSeriesChart } from "./single-series-chart.tsx";
 import type { ServerStatKpiCardProps } from "./types.ts";
 
-export default function ServerStatKpiCard({ data, metric, className }: ServerStatKpiCardProps) {
+export default function ServerStatKpiCard({ className, data, metric }: ServerStatKpiCardProps) {
 	// 1. Resolve Latest Data Point
 	const latestPoint = data.at(-1);
 
 	// 2. Resolve Metric Configuration directly
 	const preset = METRIC_CONFIGS[metric];
 	const {
-		title,
-		icon,
-		style,
-		unit,
-		chartColor,
-		series,
-		maximumFractionDigits,
 		dataKey,
-		transformValue,
+		icon,
+		title,
+		chartColor,
 		formatValue,
+		maximumFractionDigits,
+		series,
+		style,
 		subvalue,
 		tooltipFormatter,
+		transformValue,
+		unit,
 	} = preset;
 
 	// 3. Compute Value via Config

@@ -18,13 +18,14 @@ export default defineConfig({
 	},
 	lint: {
 		categories: { correctness: "error", perf: "error", suspicious: "warn" },
-		ignorePatterns: ["dist", "tools/oxlint/anti-slop/**"],
+		ignorePatterns: ["dist", "tools/oxlint/anti-slop/**", "vite.config.ts"],
 		options: { typeAware: true, typeCheck: true },
 		jsPlugins: [
 			{ name: "vite-plus", specifier: "vite-plus/oxlint-plugin" },
 			{ name: "react-js", specifier: "eslint-plugin-react" },
 			{ name: "eslint-tanstack-router", specifier: "@tanstack/eslint-plugin-router" },
 			{ name: "eslint-tanstack-query", specifier: "@tanstack/eslint-plugin-query" },
+			{ name: "perfectionist", specifier: "eslint-plugin-perfectionist" },
 			{ name: "anti-slop", specifier: "./tools/oxlint/anti-slop/index.ts" },
 		],
 		rules: {
@@ -50,6 +51,36 @@ export default defineConfig({
 					noSortAlphabetically: false,
 					reservedFirst: true,
 					shorthandFirst: true,
+				},
+			],
+
+			// --- Perfectionist Object Sorting ---
+			"sort-keys": "off",
+			"perfectionist/sort-objects": [
+				"error",
+				{
+					type: "natural",
+					order: "asc",
+					ignoreCase: true,
+					customGroups: [
+						{
+							groupName: "identifiers",
+							elementNamePattern: "^(id|key|queryKey|mutationKey|name|title|label|icon|dataKey|type|variant|path)$",
+						},
+						{
+							groupName: "loaders",
+							elementNamePattern: "^(loader|beforeLoad|queryFn|mutationFn)$",
+						},
+						{
+							groupName: "components",
+							elementNamePattern: "^(component|errorComponent|pendingComponent|notFoundComponent)$",
+						},
+						{
+							groupName: "handlers",
+							elementNamePattern: "^handler$",
+						},
+					],
+					groups: ["identifiers", "loaders", "components", "handlers", "unknown"],
 				},
 			],
 

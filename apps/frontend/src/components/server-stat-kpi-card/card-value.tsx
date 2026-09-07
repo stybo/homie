@@ -9,7 +9,7 @@ export interface CardValueProps {
 	unit?: string;
 }
 
-export function CardValue({ formattedCustomValue, displayValue, maximumFractionDigits, style, unit }: CardValueProps) {
+export function CardValue({ displayValue, formattedCustomValue, maximumFractionDigits, style, unit }: CardValueProps) {
 	if (formattedCustomValue) {
 		return (
 			<KPI.Value className="pr-2 text-2xl font-bold" value={0}>

@@ -23,8 +23,8 @@ export const Route = createFileRoute("/")({
 		return context.queryClient.query(pveDataQueryOptions);
 	},
 	component: IndexRoute,
-	pendingComponent: IndexPending,
 	errorComponent: IndexError,
+	pendingComponent: IndexPending,
 });
 
 function IndexRoute() {

@@ -28,8 +28,8 @@ async function fetchNodeData(): Promise<ProxmoxRrdRawDataPoint[]> {
 app.get("/api/health", (_req: Request, res: Response) => {
 	res.status(200).json({
 		status: "ok",
-		uptime: process.uptime(),
 		timestamp: new Date().toISOString(),
+		uptime: process.uptime(),
 	});
 });
 

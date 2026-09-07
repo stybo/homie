@@ -12,7 +12,7 @@ export interface SingleSeriesChartProps {
 	tooltipFormatter: MetricConfig["tooltipFormatter"];
 }
 
-export function SingleSeriesChart({ data, dataKey, chartColor, title, tooltipFormatter }: SingleSeriesChartProps) {
+export function SingleSeriesChart({ dataKey, title, chartColor, data, tooltipFormatter }: SingleSeriesChartProps) {
 	return (
 		<KPI.Chart
 			color={chartColor}
