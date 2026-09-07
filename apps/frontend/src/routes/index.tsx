@@ -6,7 +6,7 @@ import type { ErrorComponentProps } from "@tanstack/react-router";
 import { createFileRoute } from "@tanstack/react-router";
 import ServerStatKpiCard from "../components/server-stat-kpi-card/index.tsx";
 
-export const pveDataQueryOptions = queryOptions({
+const pveDataQueryOptions = queryOptions({
 	queryKey: ["pve-data"],
 	queryFn: async (): Promise<ProxmoxRrdRawDataPoint[]> => {
 		const response = await fetch(`/api/pve1`);
@@ -31,7 +31,7 @@ function IndexRoute() {
 	const { data } = useSuspenseQuery(pveDataQueryOptions);
 
 	return (
-		<div className="grid h-full grid-cols-1 place-content-center justify-between gap-x-3 gap-y-7 overflow-y-auto rounded-2xl p-3 sm:grid-cols-2 lg:grid-cols-4">
+		<div className="grid h-full w-full scrollbar-thin grid-cols-1 place-content-center justify-between gap-x-3 gap-y-7 overflow-x-hidden overflow-y-auto rounded-2xl p-3 sm:grid-cols-2 lg:grid-cols-4">
 			<ServerStatKpiCard data={data} metric="cpu" />
 			<ServerStatKpiCard data={data} metric="loadavg" />
 			<ServerStatKpiCard data={data} metric="netin" />
@@ -46,7 +46,7 @@ function IndexRoute() {
 
 function IndexPending() {
 	return (
-		<div className="grid h-full grid-cols-1 place-content-center justify-between gap-x-3 gap-y-7 overflow-y-auto rounded-2xl p-3 sm:grid-cols-2 lg:grid-cols-4">
+		<div className="grid h-full w-full scrollbar-thin grid-cols-1 place-content-center justify-between gap-x-3 gap-y-7 overflow-x-hidden overflow-y-auto rounded-2xl p-3 sm:grid-cols-2 lg:grid-cols-4">
 			{Array.from({ length: 8 }).map((_, index) => (
 				<KPI key={index} className="justify-between">
 					<KPI.Header>
