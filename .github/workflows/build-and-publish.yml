@@ -43,6 +43,8 @@ jobs:
 
       - name: Build and push the frontend image
         uses: docker/build-push-action@v7
+        env:
+          HEROUI_AUTH_TOKEN: ${{ secrets.HEROUI_AUTH_TOKEN }}
         with:
           context: .
           file: apps/frontend/Dockerfile
@@ -50,4 +52,4 @@ jobs:
           cache-from: type=gha,scope=frontend
           cache-to: type=gha,mode=max,scope=frontend
           tags: ghcr.io/${{ github.repository }}/frontend:latest
-          secrets: HEROUI_AUTH_TOKEN=${{ secrets.HEROUI_AUth }}
+          secret-envs: HEROUI_AUTH_TOKEN
