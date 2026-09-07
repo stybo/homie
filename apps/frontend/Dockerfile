@@ -2,8 +2,7 @@
 FROM ghcr.io/voidzero-dev/vite-plus:latest AS build
 WORKDIR /app
 COPY --chown=vp:vp package.json pnpm-lock.yaml pnpm-workspace.yaml .node-version* ./
-RUN --mount=type=secret,id=HEROUI_AUTH_TOKEN,env=HEROUI_AUTH_TOKEN
-RUN vp pm ci
+RUN --mount=type=secret,id=HEROUI_AUTH_TOKEN,env=HEROUI_AUTH_TOKEN vp pm ci
 COPY --chown=vp:vp . .
 RUN vp -C apps/frontend build
 
