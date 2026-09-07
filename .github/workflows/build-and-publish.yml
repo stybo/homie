@@ -42,6 +42,8 @@ jobs:
 
       - name: Build and push the frontend image
         uses: docker/build-push-action@v7
+        env:
+          HEROUI_AUTH_TOKEN: ${{ secrets.HEROUI_AUTH_TOKEN }}
         with:
           context: .
           file: apps/frontend/Dockerfile
