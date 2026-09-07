@@ -1,9 +1,12 @@
 {
 	"compilerOptions": {
-		"noEmit": true,
-		"module": "nodenext",
-		"moduleResolution": "nodenext",
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"jsx": "react-jsx",
 		"allowImportingTsExtensions": true,
-		"esModuleInterop": true
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"noEmit": true
 	}
 }
