@@ -25,6 +25,14 @@ async function fetchNodeData(): Promise<ProxmoxRrdRawDataPoint[]> {
 	return data;
 }
 
+app.get("/api/health", (_req: Request, res: Response) => {
+	res.status(200).json({
+		status: "ok",
+		uptime: process.uptime(),
+		timestamp: new Date().toISOString(),
+	});
+});
+
 app.get("/api/pve1", async (req: Request, res: Response) => {
 	try {
 		res.status(200).json(await fetchNodeData());
