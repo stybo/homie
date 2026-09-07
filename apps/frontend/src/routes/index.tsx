@@ -56,7 +56,7 @@ function IndexError({ error }: ErrorComponentProps) {
 	return (
 		<div className="flex h-full flex-col items-center justify-center p-8 text-rose-400">
 			<h2 className="text-lg font-semibold">Failed to load server statistics</h2>
-			<p className="mt-1 text-white">{error?.message ?? "Unknown error"}</p>
+			<p className="mt-1">{error?.message ?? "Unknown error"}</p>
 		</div>
 	);
 }

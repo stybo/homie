@@ -24,7 +24,7 @@ export const METRIC_CONFIGS: Record<ProxmoxDataKey, MetricConfig> = {
 			{ dataKey: "iowait", color: WARNING_SERIES_COLOR, name: "I/O Wait", fillOpacity: 0.15 },
 		],
 		getStatus: (raw) => (raw > 0.8 ? "danger" : raw > 0.5 ? "warning" : "success"),
-		tooltipFormatter: (raw, key) => (key === "iowait" ? `I/O Wait: ${(raw * 100).toFixed(2)}%` : `CPU: ${(raw * 100).toFixed(2)}%`),
+		tooltipFormatter: (raw, key) => (key === "iowait" ? `${(raw * 100).toFixed(2)}%` : `${(raw * 100).toFixed(2)}%`),
 	},
 	memused: {
 		title: "Memory usage",
@@ -96,7 +96,7 @@ export const METRIC_CONFIGS: Record<ProxmoxDataKey, MetricConfig> = {
 		chartColor: PRIMARY_COLOR,
 		formatValue: (raw) => formatByteRate(raw),
 		getStatus: (raw) => (raw > 100 * 1024 * 1024 ? "danger" : raw > 25 * 1024 * 1024 ? "warning" : "success"),
-		tooltipFormatter: (raw) => `In: ${formatByteRate(raw)}`,
+		tooltipFormatter: (raw) => formatByteRate(raw),
 	},
 	netout: {
 		title: "Network Out",
@@ -105,20 +105,21 @@ export const METRIC_CONFIGS: Record<ProxmoxDataKey, MetricConfig> = {
 		chartColor: PRIMARY_COLOR,
 		formatValue: (raw) => formatByteRate(raw),
 		getStatus: (raw) => (raw > 100 * 1024 * 1024 ? "danger" : raw > 25 * 1024 * 1024 ? "warning" : "success"),
-		tooltipFormatter: (raw) => `Out: ${formatByteRate(raw)}`,
+		tooltipFormatter: (raw) => formatByteRate(raw),
 	},
 	loadavg: {
 		title: "Load Average",
 		icon: <Pulse />,
 		dataKey: "loadavg",
-		style: "decimal",
+		style: "percent",
 		maximumFractionDigits: 2,
 		chartColor: PRIMARY_COLOR,
+		transformValue: (raw, point) => (point?.maxcpu ? raw / point.maxcpu : raw),
 		getStatus: (raw, point) => {
-			const max = point?.maxcpu ?? 4;
-			return raw > max ? "danger" : raw > max * 0.7 ? "warning" : "success";
+			const ratio = point?.maxcpu ? raw / point.maxcpu : raw / 4;
+			return ratio > 0.85 ? "danger" : ratio > 0.7 ? "warning" : "success";
 		},
-		tooltipFormatter: (raw) => raw.toFixed(2),
+		tooltipFormatter: (raw) => `${(raw * 100).toFixed(2)}%`,
 	},
 	pressureiosome: {
 		title: "IO Pressure",
@@ -132,7 +133,7 @@ export const METRIC_CONFIGS: Record<ProxmoxDataKey, MetricConfig> = {
 			{ dataKey: "pressureiofull", color: WARNING_SERIES_COLOR, name: "Full", fillOpacity: 0.2 },
 		],
 		getStatus: (raw) => (raw > 0.2 ? "danger" : raw > 0.05 ? "warning" : "success"),
-		tooltipFormatter: (raw, key) => (key === "pressureiofull" ? `Full: ${(raw * 100).toFixed(2)}%` : `Some: ${(raw * 100).toFixed(2)}%`),
+		tooltipFormatter: (raw, key) => (key === "pressureiofull" ? `${(raw * 100).toFixed(2)}%` : (raw * 100).toFixed(2)),
 	},
 	iowait: {
 		title: "IO Wait",

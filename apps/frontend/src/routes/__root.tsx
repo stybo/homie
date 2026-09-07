@@ -14,7 +14,7 @@ function RootComponent() {
 	useAutoTheme();
 
 	return (
-		<div className="bg-default h-screen w-screen">
+		<div className="bg-default fixed h-screen w-screen">
 			<Outlet />
 		</div>
 	);

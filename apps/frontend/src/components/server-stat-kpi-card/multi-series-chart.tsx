@@ -33,7 +33,7 @@ export function MultiSeriesChart({ data, series, title, tooltipFormatter }: Mult
 					if (!active || !payload || payload.length === 0) return null;
 
 					return (
-						<div style={{ transform: "translate(-50%, calc(-100% - 50px))" }}>
+						<div className="w-max" style={{ transform: "translate(-50%, calc(-100% - 50px))" }}>
 							<ChartTooltip>
 								{payload.map((item, idx) => (
 									<ChartTooltip.Item key={idx}>
