@@ -22,7 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-.tanstack
+.tanstack/*
 
 # AI agent worktrees
 .claude/worktrees/
