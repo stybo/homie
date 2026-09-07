@@ -14,7 +14,7 @@ function RootComponent() {
 	useAutoTheme();
 
 	return (
-		<div className="bg-default fixed h-screen w-screen overflow-hidden select-none">
+		<div className="bg-default fixed h-screen w-screen overflow-hidden">
 			<Outlet />
 		</div>
 	);
