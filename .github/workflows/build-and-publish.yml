@@ -9,6 +9,7 @@ jobs:
   run-qa:
     name: Run QA
     uses: ./.github/workflows/qa.yml
+    secrets: inherit
 
   build-and-publish:
     name: Build & Publish
@@ -49,4 +50,3 @@ jobs:
           cache-from: type=gha,scope=frontend
           cache-to: type=gha,mode=max,scope=frontend
           tags: ghcr.io/${{ github.repository }}/frontend:latest
-          secrets: ${{ secrets.HEROUI_AUTH_TOKEN }}
