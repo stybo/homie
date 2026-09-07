@@ -30,15 +30,15 @@ export function MultiSeriesChart({ data, series, title, tooltipFormatter }: Mult
 				allowEscapeViewBox={{ x: true, y: true }}
 				offset={0}
 				content={({ active, payload }) => {
-					if (!active || !payload || payload.length === 0) return null;
+					if (!active || !payload?.length) return null;
 
 					return (
 						<div className="w-max" style={{ transform: "translate(-50%, calc(-100% - 50px))" }}>
 							<ChartTooltip>
 								{payload.map((item, idx) => (
 									<ChartTooltip.Item key={idx}>
-										<ChartTooltip.Indicator color={item.stroke || item.color} />
-										<ChartTooltip.Label>{item.name || title}</ChartTooltip.Label>
+										<ChartTooltip.Indicator color={item.stroke ?? item.color} />
+										<ChartTooltip.Label>{item.name ?? title}</ChartTooltip.Label>
 										<ChartTooltip.Value>{tooltipFormatter(Number(item.value ?? 0), String(item.dataKey))}</ChartTooltip.Value>
 									</ChartTooltip.Item>
 								))}

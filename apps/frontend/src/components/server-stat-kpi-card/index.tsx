@@ -7,17 +7,30 @@ import type { ServerStatKpiCardProps } from "./types.ts";
 
 export default function ServerStatKpiCard({ data, metric, className }: ServerStatKpiCardProps) {
 	// 1. Resolve Latest Data Point
-	const latestPoint = data.length > 0 ? data[data.length - 1] : undefined;
+	const latestPoint = data.at(-1);
 
 	// 2. Resolve Metric Configuration directly
 	const preset = METRIC_CONFIGS[metric];
-	const { title, icon, style, unit, chartColor, series, maximumFractionDigits, dataKey, transformValue, formatValue, tooltipFormatter } =
-		preset;
+	const {
+		title,
+		icon,
+		style,
+		unit,
+		chartColor,
+		series,
+		maximumFractionDigits,
+		dataKey,
+		transformValue,
+		formatValue,
+		subvalue,
+		tooltipFormatter,
+	} = preset;
 
 	// 3. Compute Value via Config
 	const rawValue = latestPoint?.[dataKey] ?? 0;
-	const displayValue = transformValue ? transformValue(rawValue, latestPoint) : rawValue;
-	const formattedCustomValue = formatValue ? formatValue(rawValue, latestPoint) : undefined;
+	const displayValue = transformValue?.(rawValue, latestPoint) ?? rawValue;
+	const formattedCustomValue = formatValue?.(rawValue, latestPoint);
+	const subvalueContent = subvalue?.(rawValue, latestPoint, data);
 
 	return (
 		<KPI className={className}>
@@ -27,15 +40,18 @@ export default function ServerStatKpiCard({ data, metric, className }: ServerSta
 			</KPI.Header>
 
 			<KPI.Content className="grid-cols-[auto_1fr] items-center gap-2">
-				<CardValue
-					displayValue={displayValue}
-					formattedCustomValue={formattedCustomValue}
-					maximumFractionDigits={maximumFractionDigits}
-					style={style}
-					unit={unit}
-				/>
+				<div className="flex flex-col items-start">
+					<CardValue
+						displayValue={displayValue}
+						formattedCustomValue={formattedCustomValue}
+						maximumFractionDigits={maximumFractionDigits}
+						style={style}
+						unit={unit}
+					/>
+					{subvalueContent && <span className="text-xs font-normal text-zinc-500 dark:text-zinc-400">{subvalueContent}</span>}
+				</div>
 
-				{series && series.length > 0 ? (
+				{series?.length ? (
 					<MultiSeriesChart data={data} series={series} title={title} tooltipFormatter={tooltipFormatter} />
 				) : (
 					<SingleSeriesChart chartColor={chartColor} data={data} dataKey={dataKey} title={title} tooltipFormatter={tooltipFormatter} />
