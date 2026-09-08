@@ -1,5 +1,6 @@
 import { useTheme } from "@heroui/react";
 import { getLocalTimeZone, now } from "@internationalized/date";
+import { useEffect } from "react";
 import { getTimes } from "suncalc";
 
 const LATITUDE = 53.219;
@@ -24,7 +25,9 @@ export function useAutoTheme() {
 	const { resolvedTheme, setTheme } = useTheme();
 	const expected = getTimeBasedTheme();
 
-	if (resolvedTheme !== expected) {
-		setTheme(expected);
-	}
+	useEffect(() => {
+		if (resolvedTheme !== expected) {
+			setTheme(expected);
+		}
+	}, [resolvedTheme, expected, setTheme]);
 }
