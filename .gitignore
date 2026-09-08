@@ -23,9 +23,11 @@ dist-ssr
 *.sln
 *.sw?
 .tanstack
-tanstack/*
 
-# AI agent worktrees
+# AI agent worktrees & skills
 .claude/worktrees/
+.agents/
+.gemini/
+skills-lock.json
 
 *.env
