@@ -1,6 +1,7 @@
 services:
   frontend:
     container_name: homie-frontend
+    image: homie-frontend
     build:
       context: .
       dockerfile: apps/frontend/Dockerfile

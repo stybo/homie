@@ -23,7 +23,13 @@ export default defineConfig({
 			{ name: "eslint-tanstack-query", specifier: "@tanstack/eslint-plugin-query" },
 			{ name: "perfectionist", specifier: "eslint-plugin-perfectionist" },
 			{ name: "anti-slop", specifier: "./tools/oxlint/anti-slop/index.ts" },
+			{ name: "tailwindcss", specifier: "oxlint-tailwindcss" },
 		],
+		settings: {
+			tailwindcss: {
+				entryPoint: "./apps/frontend/src/globals.css",
+			},
+		},
 		options: { typeAware: true, typeCheck: true },
 		rules: {
 			// --- Anti-Slop ---
@@ -93,6 +99,12 @@ export default defineConfig({
 						{ elementNamePattern: "^test$", groupName: "vp-test" },
 						{ elementNamePattern: "^(server|build)$", groupName: "vp-build" },
 						{ elementNamePattern: "^staged$", groupName: "vp-staged" },
+						{ elementNamePattern: "^categories$", groupName: "lint-categories" },
+						{ elementNamePattern: "^ignorePatterns$", groupName: "lint-ignore" },
+						{ elementNamePattern: "^jsPlugins$", groupName: "lint-plugins" },
+						{ elementNamePattern: "^settings$", groupName: "lint-settings" },
+						{ elementNamePattern: "^options$", groupName: "lint-options" },
+						{ elementNamePattern: "^rules$", groupName: "lint-rules" },
 						{
 							elementNamePattern: "^(id|key|queryKey|mutationKey|name|title|label|icon|dataKey|type|variant|path)$",
 							groupName: "identifiers",
@@ -112,6 +124,12 @@ export default defineConfig({
 						"vp-test",
 						"vp-build",
 						"vp-staged",
+						"lint-categories",
+						"lint-ignore",
+						"lint-plugins",
+						"lint-settings",
+						"lint-options",
+						"lint-rules",
 						"identifiers",
 						"loaders",
 						"components",
@@ -123,6 +141,20 @@ export default defineConfig({
 					order: "asc",
 				},
 			],
+
+			// --- Tailwind CSS ---
+			"tailwindcss/consistent-variant-order": "warn",
+			"tailwindcss/enforce-canonical": "warn",
+			"tailwindcss/enforce-consistent-important-position": "warn",
+			"tailwindcss/enforce-consistent-variable-syntax": "warn",
+			"tailwindcss/enforce-negative-arbitrary-values": "warn",
+			"tailwindcss/enforce-shorthand": "warn",
+			"tailwindcss/no-conflicting-classes": "error",
+			"tailwindcss/no-deprecated-classes": "error",
+			"tailwindcss/no-duplicate-classes": "error",
+			"tailwindcss/no-unknown-classes": "error",
+			"tailwindcss/no-unnecessary-arbitrary-value": "warn",
+			"tailwindcss/no-unnecessary-whitespace": "error",
 
 			// --- Vite Plus ---
 			"vite-plus/prefer-vite-plus-imports": "error",

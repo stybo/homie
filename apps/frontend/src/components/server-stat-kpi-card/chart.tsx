@@ -16,6 +16,7 @@ export function Chart({ title, data, series, formatValue }: ChartProps) {
 		<AreaChart
 			className="kpi__chart select-none **:outline-none"
 			data={data}
+			data-has-tooltip="true"
 			height={70}
 			margin={{ bottom: 3, left: 0, right: 0, top: 3 }}
 			unselectable="on"
