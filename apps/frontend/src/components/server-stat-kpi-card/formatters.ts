@@ -1,27 +1,29 @@
+const BYTE_UNITS = ["B", "KB", "MB", "GB", "TB", "PB"] as const;
+const RATE_UNITS = ["B/s", "KB/s", "MB/s", "GB/s", "TB/s"] as const;
+const KILO_BASE = 1024;
+
+function formatUnits(value: number, units: readonly string[], decimals: number): string {
+	if (!Number.isFinite(value) || value === 0) return `0 ${units[0]}`;
+	const dm = Math.max(0, decimals);
+	const i = Math.floor(Math.log2(Math.abs(value)) / 10);
+	const idx = Math.max(0, Math.min(i, units.length - 1));
+	const scaled = value / KILO_BASE ** idx;
+	return `${parseFloat(scaled.toFixed(dm))} ${units[idx]}`;
+}
+
 /** Format byte values into human-readable strings (e.g. "6.25 GB") */
 export function formatBytes(bytes: number, decimals = 2): string {
-	if (bytes === 0) return "0 B";
-	const k = 1024;
-	const dm = Math.max(0, decimals);
-	const sizes = ["B", "KB", "MB", "GB", "TB", "PB"];
-	const i = Math.floor(Math.log(Math.abs(bytes)) / Math.log(k));
-	const idx = Math.min(i, sizes.length - 1);
-	return `${parseFloat((bytes / Math.pow(k, idx)).toFixed(dm))} ${sizes[idx]}`;
+	return formatUnits(bytes, BYTE_UNITS, decimals);
 }
 
 /** Format byte throughput rates (e.g. "124 KB/s", "1.2 MB/s") */
 export function formatByteRate(bytesPerSec: number, decimals = 2): string {
-	if (bytesPerSec === 0) return "0 B/s";
-	const k = 1024;
-	const dm = Math.max(0, decimals);
-	const sizes = ["B/s", "KB/s", "MB/s", "GB/s", "TB/s"];
-	const i = Math.floor(Math.log(Math.abs(bytesPerSec)) / Math.log(k));
-	const idx = Math.min(i, sizes.length - 1);
-	return `${parseFloat((bytesPerSec / Math.pow(k, idx)).toFixed(dm))} ${sizes[idx]}`;
+	return formatUnits(bytesPerSec, RATE_UNITS, decimals);
 }
 
 /** Format a 0-1 ratio or percentage to formatted percentage string */
 export function formatPercentValue(ratio: number, decimals = 2): string {
+	if (!Number.isFinite(ratio)) return "0.00%";
 	return `${(ratio * 100).toFixed(decimals)}%`;
 }
 
@@ -33,11 +35,12 @@ const TIME_FORMATTER = new Intl.DateTimeFormat("nl-NL", {
 
 /** Format unix timestamp (in seconds) to HH:mm string */
 export function formatTime(timestampInSeconds: number): string {
-	return TIME_FORMATTER.format(new Date(timestampInSeconds * 1000));
+	if (!Number.isFinite(timestampInSeconds)) return "";
+	return TIME_FORMATTER.format(timestampInSeconds * 1000);
 }
 
 /** Format capacity usage ratio and total into a subvalue string (e.g. "65.4% of 32 GB") */
 export function formatCapacitySubvalue(used: number, total?: number): string | null {
-	if (!total) return null;
+	if (!total || !Number.isFinite(total) || total <= 0) return null;
 	return `${formatPercentValue(used / total, 1)} of ${formatBytes(total)}`;
 }
