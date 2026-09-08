@@ -3,8 +3,8 @@ import { FormDevtoolsPanel } from "@tanstack/react-form-devtools";
 import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TableDevtoolsPanel } from "@tanstack/react-table-devtools";
-import { queryClient } from "./QueryClientProvider.tsx";
-import { router } from "./RouterProvider.tsx";
+import { queryClient } from "./QueryClient.ts";
+import { router } from "./Router.ts";
 
 export function DevtoolsProvider() {
 	return (

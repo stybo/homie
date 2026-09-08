@@ -1,7 +1,9 @@
-import type { MetricStatus, MetricStyle, ProxmoxDataKey, ProxmoxRrdRawDataPoint } from "@homie/types";
+import type { ProxmoxDataKey, ProxmoxRrdRawDataPoint } from "@homie/types";
 import type { ReactNode } from "react";
 
-export type ServerMetricKey = "cpu" | "loadavg" | "netin" | "netout" | "pressureiosome" | "memused" | "swapused" | "rootused";
+export const METRIC_KEYS = ["cpu", "loadavg", "netin", "netout", "pressureiosome", "memused", "swapused", "rootused"] as const;
+
+export type ServerMetricKey = (typeof METRIC_KEYS)[number];
 
 export interface MetricSeriesConfig {
 	dataKey: string;
@@ -15,16 +17,9 @@ export interface MetricConfig {
 	title: string;
 	icon: ReactNode;
 	dataKey: ProxmoxDataKey;
-	chartColor: string;
-	style?: MetricStyle;
-	unit?: string;
-	maximumFractionDigits?: number;
-	series?: MetricSeriesConfig[];
-	transformValue?: (raw: number, point?: ProxmoxRrdRawDataPoint) => number;
-	formatValue?: (raw: number, point?: ProxmoxRrdRawDataPoint) => string;
-	subvalue?: (raw: number, point?: ProxmoxRrdRawDataPoint, data?: ProxmoxRrdRawDataPoint[]) => ReactNode;
-	getStatus?: (raw: number, point?: ProxmoxRrdRawDataPoint) => MetricStatus;
-	tooltipFormatter: (raw: number, dataKey?: string) => string;
+	series: MetricSeriesConfig[];
+	formatValue: (raw: number, point?: ProxmoxRrdRawDataPoint) => string;
+	totalKey?: ProxmoxDataKey;
 }
 
 export interface ServerStatKpiCardProps {

@@ -13,9 +13,5 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 function RootComponent() {
 	useAutoTheme();
 
-	return (
-		<div className="bg-default fixed h-dvh w-screen overflow-hidden">
-			<Outlet />
-		</div>
-	);
+	return <Outlet />;
 }

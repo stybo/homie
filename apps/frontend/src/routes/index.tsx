@@ -1,17 +1,17 @@
-import { KPI } from "@heroui-pro/react/kpi";
-import { Skeleton } from "@heroui/react";
 import type { ProxmoxRrdRawDataPoint } from "@homie/types";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-import type { ErrorComponentProps } from "@tanstack/react-router";
 import { createFileRoute } from "@tanstack/react-router";
+import { RouteError } from "../components/route-error.tsx";
+import { ServerStatKpiGrid, ServerStatKpiGridSkeleton } from "../components/server-stat-kpi-card/grid.tsx";
 import ServerStatKpiCard from "../components/server-stat-kpi-card/index.tsx";
+import { METRIC_KEYS } from "../components/server-stat-kpi-card/types.ts";
 
-const pveDataQueryOptions = queryOptions({
+export const pveDataQueryOptions = queryOptions({
 	queryKey: ["pve-data"],
-	queryFn: async (): Promise<ProxmoxRrdRawDataPoint[]> => {
-		const response = await fetch(`/api/pve1`);
+	queryFn: async ({ signal }): Promise<ProxmoxRrdRawDataPoint[]> => {
+		const response = await fetch("/api/pve1", { signal });
 		if (!response.ok) {
-			throw new Error("Network response was not ok");
+			throw new Error(`Failed to load server stats: ${response.status} ${response.statusText}`);
 		}
 		return response.json();
 	},
@@ -23,51 +23,18 @@ export const Route = createFileRoute("/")({
 		return context.queryClient.query(pveDataQueryOptions);
 	},
 	component: IndexRoute,
-	errorComponent: IndexError,
-	pendingComponent: IndexPending,
+	errorComponent: RouteError,
+	pendingComponent: ServerStatKpiGridSkeleton,
 });
 
 function IndexRoute() {
 	const { data } = useSuspenseQuery(pveDataQueryOptions);
 
 	return (
-		<div className="grid h-full w-full scrollbar-thin grid-cols-1 place-content-center justify-between gap-x-3 gap-y-7 overflow-x-hidden overflow-y-auto rounded-2xl p-3 sm:grid-cols-2 lg:grid-cols-4">
-			<ServerStatKpiCard data={data} metric="cpu" />
-			<ServerStatKpiCard data={data} metric="loadavg" />
-			<ServerStatKpiCard data={data} metric="netin" />
-			<ServerStatKpiCard data={data} metric="netout" />
-			<ServerStatKpiCard data={data} metric="pressureiosome" />
-			<ServerStatKpiCard data={data} metric="memused" />
-			<ServerStatKpiCard data={data} metric="swapused" />
-			<ServerStatKpiCard data={data} metric="rootused" />
-		</div>
-	);
-}
-
-function IndexPending() {
-	return (
-		<div className="grid h-full w-full scrollbar-thin grid-cols-1 place-content-center justify-between gap-x-3 gap-y-7 overflow-x-hidden overflow-y-auto rounded-2xl p-3 sm:grid-cols-2 lg:grid-cols-4">
-			{Array.from({ length: 8 }).map((_, index) => (
-				<KPI key={index} className="justify-between">
-					<KPI.Header>
-						<Skeleton className="h-8 w-8 rounded-lg" />
-						<Skeleton className="h-4 w-24 rounded-md" />
-					</KPI.Header>
-					<KPI.Content className="grid-cols-[auto_1fr] items-center gap-2">
-						<Skeleton className="h-8 w-20 rounded-md" />
-						<Skeleton className="h-17.5 w-full rounded-xl" />
-					</KPI.Content>
-				</KPI>
+		<ServerStatKpiGrid>
+			{METRIC_KEYS.map((metric) => (
+				<ServerStatKpiCard key={metric} data={data} metric={metric} />
 			))}
-		</div>
-	);
-}
-
-function IndexError({ error }: ErrorComponentProps) {
-	return (
-		<div className="flex h-full flex-col items-center justify-center p-8 text-rose-400">
-			<h2 className="text-lg font-semibold">Failed to load server statistics</h2>
-			<p className="mt-1">{error?.message ?? "Unknown error"}</p>
-		</div>
+		</ServerStatKpiGrid>
 	);
 }

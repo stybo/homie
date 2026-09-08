@@ -2,8 +2,25 @@
 @import "@heroui/styles";
 @import "@heroui-pro/react/css";
 
+html,
+#root {
+	@apply bg-default;
+}
+
 :root {
+	--chart-primary: #06b6d4;
+	--chart-total: #c084fc;
+	--chart-used: #6366f1;
+	--chart-warning: #f43f5e;
+
 	.kpi__chart {
 		--kpi-chart-fade: 5%;
 	}
+}
+
+.dark {
+	--chart-primary: #22d3ee;
+	--chart-total: #c084fc;
+	--chart-used: #818cf8;
+	--chart-warning: #fb7185;
 }

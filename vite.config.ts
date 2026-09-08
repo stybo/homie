@@ -10,7 +10,7 @@ export default defineConfig({
 		sortDescending: true,
 		sortImports: { newlinesBetween: false },
 		sortPackageJson: true,
-		sortTailwindcss: true,
+		sortTailwindcss: { stylesheet: "./apps/frontend/src/globals.css" },
 		useTabs: true,
 	},
 	lint: {
@@ -56,6 +56,31 @@ export default defineConfig({
 			// --- OXC ---
 			"oxc/no-async-endpoint-handlers": "off",
 
+			// --- Perfectionist JSX Props Sorting ---
+			"perfectionist/sort-jsx-props": [
+				"error",
+				{
+					type: "natural",
+					customGroups: [
+						{
+							elementNamePattern: "^(title|name|label)$",
+							groupName: "titles",
+						},
+						{
+							elementNamePattern: "^(key|id|dataKey|type|variant|path|icon)$",
+							groupName: "identifiers",
+						},
+						{
+							elementNamePattern: "^(on[A-Z].*|tooltipFormatter|formatValue|transformValue|subvalue)$",
+							groupName: "callbacks",
+						},
+					],
+					groups: ["shorthand-prop", "titles", "identifiers", "unknown", "callbacks", "multiline-prop"],
+					ignoreCase: true,
+					order: "asc",
+				},
+			],
+
 			// --- Perfectionist Object Sorting ---
 			"perfectionist/sort-objects": [
 				"error",
@@ -75,6 +100,10 @@ export default defineConfig({
 						{ elementNamePattern: "^(loader|beforeLoad|queryFn|mutationFn)$", groupName: "loaders" },
 						{ elementNamePattern: "^(component|errorComponent|pendingComponent|notFoundComponent)$", groupName: "components" },
 						{ elementNamePattern: "^handler$", groupName: "handlers" },
+						{
+							elementNamePattern: "^(formatValue|transformValue|subvalue|tooltipFormatter|on[A-Z].*|get[A-Z].*)$",
+							groupName: "callbacks",
+						},
 					],
 					groups: [
 						"vp-run",
@@ -88,26 +117,12 @@ export default defineConfig({
 						"components",
 						"handlers",
 						"unknown",
+						"callbacks",
 					],
 					ignoreCase: true,
 					order: "asc",
 				},
 			],
-
-			// --- React & JSX ---
-			"react-js/jsx-sort-props": [
-				"error",
-				{
-					callbacksLast: true,
-					ignoreCase: true,
-					multiline: "last",
-					noSortAlphabetically: false,
-					reservedFirst: true,
-					shorthandFirst: true,
-				},
-			],
-
-			"sort-keys": "off",
 
 			// --- Vite Plus ---
 			"vite-plus/prefer-vite-plus-imports": "error",

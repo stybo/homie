@@ -1,61 +1,32 @@
 import { KPI } from "@heroui-pro/react/kpi";
-import { CardValue } from "./card-value.tsx";
+import { Chart } from "./chart.tsx";
 import { METRIC_CONFIGS } from "./configs.tsx";
-import { MultiSeriesChart } from "./multi-series-chart.tsx";
-import { SingleSeriesChart } from "./single-series-chart.tsx";
+import { formatCapacitySubvalue } from "./formatters.ts";
 import type { ServerStatKpiCardProps } from "./types.ts";
 
-export default function ServerStatKpiCard({ className, data, metric }: ServerStatKpiCardProps) {
-	// 1. Resolve Latest Data Point
+export default function ServerStatKpiCard({ data, metric }: ServerStatKpiCardProps) {
+	const { dataKey, icon, title, series, totalKey, formatValue } = METRIC_CONFIGS[metric];
+
 	const latestPoint = data.at(-1);
-
-	// 2. Resolve Metric Configuration directly
-	const preset = METRIC_CONFIGS[metric];
-	const {
-		dataKey,
-		icon,
-		title,
-		chartColor,
-		formatValue,
-		maximumFractionDigits,
-		series,
-		style,
-		subvalue,
-		tooltipFormatter,
-		transformValue,
-		unit,
-	} = preset;
-
-	// 3. Compute Value via Config
 	const rawValue = latestPoint?.[dataKey] ?? 0;
-	const displayValue = transformValue?.(rawValue, latestPoint) ?? rawValue;
-	const formattedCustomValue = formatValue?.(rawValue, latestPoint);
-	const subvalueContent = subvalue?.(rawValue, latestPoint, data);
+	const subvalue = totalKey ? formatCapacitySubvalue(rawValue, latestPoint?.[totalKey]) : null;
 
 	return (
-		<KPI className={className}>
+		<KPI>
 			<KPI.Header>
 				<KPI.Icon className="bg-zinc-200/80 text-zinc-700 dark:bg-emerald-500/15 dark:text-emerald-400">{icon}</KPI.Icon>
 				<KPI.Title>{title}</KPI.Title>
 			</KPI.Header>
 
-			<KPI.Content className="grid-cols-[auto_1fr] items-center gap-2">
-				<div className="flex flex-col items-start">
-					<CardValue
-						displayValue={displayValue}
-						formattedCustomValue={formattedCustomValue}
-						maximumFractionDigits={maximumFractionDigits}
-						style={style}
-						unit={unit}
-					/>
-					{subvalueContent && <span className="text-xs font-normal text-zinc-500 dark:text-zinc-400">{subvalueContent}</span>}
+			<KPI.Content className="grid-cols-[auto_1fr]">
+				<div className="pt-3">
+					<KPI.Value className="pr-2 text-2xl font-bold" value={rawValue}>
+						{() => formatValue(rawValue, latestPoint)}
+					</KPI.Value>
+					<KPI.Footer className="min-h-3 text-xs text-zinc-500 dark:text-zinc-400">{subvalue}</KPI.Footer>
 				</div>
 
-				{series?.length ? (
-					<MultiSeriesChart data={data} series={series} title={title} tooltipFormatter={tooltipFormatter} />
-				) : (
-					<SingleSeriesChart chartColor={chartColor} data={data} dataKey={dataKey} title={title} tooltipFormatter={tooltipFormatter} />
-				)}
+				<Chart title={title} data={data} series={series} formatValue={(raw) => formatValue(raw, latestPoint)} />
 			</KPI.Content>
 		</KPI>
 	);
