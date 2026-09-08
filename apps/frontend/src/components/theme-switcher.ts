@@ -1,12 +1,18 @@
 import { useTheme } from "@heroui/react";
 import { getLocalTimeZone, now } from "@internationalized/date";
+import { getTimes } from "suncalc";
 
-const DAY_START_HOUR = 9;
-const NIGHT_START_HOUR = 21;
+const LATITUDE = 53.219;
+const LONGITUDE = 6.566;
+
+export function isDaylight(): boolean {
+	const currentDate = now(getLocalTimeZone()).toDate();
+	const { sunrise, sunset } = getTimes(currentDate, LATITUDE, LONGITUDE);
+	return Boolean(sunrise && sunset && currentDate >= sunrise && currentDate < sunset);
+}
 
 export function getTimeBasedTheme(): "light" | "dark" {
-	const { hour } = now(getLocalTimeZone());
-	return hour >= DAY_START_HOUR && hour < NIGHT_START_HOUR ? "light" : "dark";
+	return isDaylight() ? "light" : "dark";
 }
 
 export function useAutoTheme() {
