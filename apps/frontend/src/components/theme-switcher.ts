@@ -4,20 +4,20 @@ import { getTimes } from "suncalc";
 
 const LATITUDE = 53.219;
 const LONGITUDE = 6.566;
-
-export function isDaylight(): boolean {
-	const currentZoned = now(getLocalTimeZone());
-	const currentDate = currentZoned.toDate();
-	const { sunrise, sunset } = getTimes(currentDate, LATITUDE, LONGITUDE);
-
-	const isAfterSunriseOrNine = (sunrise && currentDate >= sunrise) || currentZoned.hour >= 9;
-	const isBeforeSunset = Boolean(sunset && currentDate < sunset);
-
-	return isAfterSunriseOrNine && isBeforeSunset;
-}
+const MORNING_START_HOUR = 9;
 
 export function getTimeBasedTheme(): "light" | "dark" {
-	return isDaylight() ? "light" : "dark";
+	const current = now(getLocalTimeZone());
+	const date = current.toDate();
+	const { sunrise, sunset } = getTimes(date, LATITUDE, LONGITUDE);
+
+	const isAfterSunrise = Boolean(sunrise && date >= sunrise);
+	const isAfterMorningHour = current.hour >= MORNING_START_HOUR;
+	const isBeforeSunset = Boolean(sunset && date < sunset);
+
+	const isDaytime = (isAfterSunrise || isAfterMorningHour) && isBeforeSunset;
+
+	return isDaytime ? "light" : "dark";
 }
 
 export function useAutoTheme() {
