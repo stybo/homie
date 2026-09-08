@@ -17,7 +17,7 @@ export function Chart({ title, data, series, formatValue }: ChartProps) {
 			className="kpi__chart w-full select-none **:outline-none"
 			data={data}
 			data-has-tooltip="true"
-			height={70}
+			height={60}
 			margin={{ bottom: 3, left: 0, right: 0, top: 3 }}
 			unselectable="on"
 		>
