@@ -48,6 +48,8 @@ export interface ProxmoxRrdResponse {
 	data: ProxmoxRrdRawDataPoint[];
 }
 
+export type ProxmoxTimeframe = "hour" | "day" | "week" | "month" | "year";
+
 export type ProxmoxDataKey =
 	| "time"
 	| "cpu"

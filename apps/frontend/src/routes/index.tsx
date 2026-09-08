@@ -1,20 +1,20 @@
-import type { ProxmoxRrdRawDataPoint } from "@homie/types";
+import { getLocalTimeZone, now } from "@internationalized/date";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { fetchPveStats } from "../api/pve.ts";
 import { RouteError } from "../components/route-error.tsx";
 import { ServerStatKpiGrid, ServerStatKpiGridSkeleton } from "../components/server-stat-kpi-card/grid.tsx";
 import ServerStatKpiCard from "../components/server-stat-kpi-card/index.tsx";
 import { METRIC_KEYS } from "../components/server-stat-kpi-card/types.ts";
 
+export function getTimeBasedTimeframe(): "hour" | "day" {
+	const { minute } = now(getLocalTimeZone());
+	return Math.floor(minute / 2) % 2 === 0 ? "hour" : "day";
+}
+
 export const pveDataQueryOptions = queryOptions({
 	queryKey: ["pve-data"],
-	queryFn: async ({ signal }): Promise<ProxmoxRrdRawDataPoint[]> => {
-		const response = await fetch("/api/pve1", { signal });
-		if (!response.ok) {
-			throw new Error(`Failed to load server stats: ${response.status} ${response.statusText}`);
-		}
-		return response.json();
-	},
+	queryFn: ({ signal }) => fetchPveStats({ signal, timeframe: getTimeBasedTimeframe() }),
 	refetchInterval: 10_000,
 });
 
