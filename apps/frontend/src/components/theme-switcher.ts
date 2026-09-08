@@ -6,9 +6,14 @@ const LATITUDE = 53.219;
 const LONGITUDE = 6.566;
 
 export function isDaylight(): boolean {
-	const currentDate = now(getLocalTimeZone()).toDate();
+	const currentZoned = now(getLocalTimeZone());
+	const currentDate = currentZoned.toDate();
 	const { sunrise, sunset } = getTimes(currentDate, LATITUDE, LONGITUDE);
-	return Boolean(sunrise && sunset && currentDate >= sunrise && currentDate < sunset);
+
+	const isAfterSunriseOrNine = (sunrise && currentDate >= sunrise) || currentZoned.hour >= 9;
+	const isBeforeSunset = Boolean(sunset && currentDate < sunset);
+
+	return isAfterSunriseOrNine && isBeforeSunset;
 }
 
 export function getTimeBasedTheme(): "light" | "dark" {
