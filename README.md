@@ -1,29 +1,60 @@
-# Vite+ Monorepo Starter
+# Homie
 
-A starter for creating a Vite+ monorepo.
+![Homelab Dashboard Banner](https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80)
 
-## Development
+A modern homelab monitoring dashboard built on a [Vite+](https://github.com/voidzero-dev/vite-plus) monorepo.
 
-- Check everything is ready:
+## Structure
 
-```bash
-vp run ready
+```text
+├── apps/
+│   ├── frontend/    # React 19, HeroUI, TanStack Router & Query, Tailwind CSS v4
+│   └── backend/     # Express API proxying Proxmox VE RRD metrics
+├── packages/
+│   └── types/       # Shared TypeScript schemas & Proxmox types (@homie/types)
+└── tools/           # Oxlint anti-slop rules & dev tooling
 ```
 
-- Run the tests:
+## Quick Start
+
+### Prerequisites
+
+- [pnpm](https://pnpm.io/) `v12+`
+- [Vite+](https://github.com/voidzero-dev/vite-plus) CLI (`vp`)
+
+### Development
 
 ```bash
-vp run -r test
+# Install dependencies
+pnpm install
+
+# Start all applications in parallel
+vp run dev
 ```
 
-- Build the monorepo:
+### Quality & Build
 
 ```bash
+# Typecheck, lint & format
+vp check --fix
+
+# Build all apps & packages
 vp run -r build
 ```
 
-- Run the development server:
+## Docker Deployment
+
+Configure environment variables in `apps/backend/.env`:
+
+```env
+PROXMOX_TOKEN=PVEAPIToken=user@realm!tokenid=uuid
+```
+
+Run with Docker Compose:
 
 ```bash
-vp run dev
+docker compose up -d --build
 ```
+
+- **Frontend**: `http://localhost:8080`
+- **Backend API**: `http://localhost:10000/api/health`

@@ -71,6 +71,3 @@ export type ProxmoxDataKey =
 	| "pressureiofull"
 	| "pressurememorysome"
 	| "pressurememoryfull";
-
-export type MetricStyle = "percent" | "decimal" | "unit" | "currency";
-export type MetricStatus = "success" | "warning" | "danger";
