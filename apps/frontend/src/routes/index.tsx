@@ -8,7 +8,7 @@ import { METRIC_KEYS } from "../components/server-stat-kpi-card/types.ts";
 
 export const Route = createFileRoute("/")({
 	loader: ({ context }) => {
-		return context.queryClient.ensureQueryData(pveDataQueryOptions);
+		return context.queryClient.query(pveDataQueryOptions);
 	},
 	component: IndexRoute,
 	errorComponent: RouteError,

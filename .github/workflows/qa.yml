@@ -24,3 +24,6 @@ jobs:
 
       - name: Check code
         run: vp check
+
+      - name: Test code
+        run: vp test
