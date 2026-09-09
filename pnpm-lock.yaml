@@ -240,6 +240,9 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.3.3
         version: 4.3.3(@voidzero-dev/vite-plus-core@0.3.1(@types/node@26.5.0)(@vitejs/devtools@0.7.2)(jiti@2.7.0)(typescript@7.0.2))
+      '@tanstack/devtools-a11y':
+        specifier: ^0.2.2
+        version: 0.2.2(@types/react@19.2.18)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.15)
       '@tanstack/devtools-vite':
         specifier: ^0.8.5
         version: 0.8.5(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@voidzero-dev/vite-plus-core@0.3.1(@types/node@26.5.0)(@vitejs/devtools@0.7.2)(jiti@2.7.0)(typescript@7.0.2))
@@ -1497,6 +1500,28 @@ packages:
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7 || ^8
 
+  '@tanstack/devtools-a11y@0.2.2':
+    resolution: {integrity: sha512-FhXCQyP0tqhJFU/2MqWVqp7TIFZFVSoL2WoVDBckh83XmHwV02H3ZH+iFQaj8WeCqpQlHentGDxk+7f7dg0fKg==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@angular/core': '>=19.0.0'
+      '@types/react': '>=17.0.0'
+      preact: '>=10.0.0'
+      react: '>=17.0.0'
+      solid-js: '>=1.9.7'
+      vue: '>=3.2.0'
+    peerDependenciesMeta:
+      '@angular/core':
+        optional: true
+      preact:
+        optional: true
+      react:
+        optional: true
+      solid-js:
+        optional: true
+      vue:
+        optional: true
+
   '@tanstack/devtools-bundler-core@0.1.3':
     resolution: {integrity: sha512-F0tlxIyfFqXkZ1mJP1EjtkiSeJA+ztXY2AYOHf7r4goCIEAOp86N9PFJ/yv8vu1TnmxGS6vKsZCS3Kyls9xQQA==}
     engines: {node: '>=18'}
@@ -1555,6 +1580,34 @@ packages:
 
   '@tanstack/devtools-utils@0.6.0':
     resolution: {integrity: sha512-ebYkWwe/OqzkgQzqGlJ5fyjaNX/CSBKluGOAW9KvhKeAM6+/kQ7+BQGqWQUnXE5CQ6pjtjyyLkYBEQ2vmctaug==}
+    engines: {node: '>=18'}
+    hasBin: true
+    peerDependencies:
+      '@angular/core': '>=19.0.0'
+      '@types/react': '>=17.0.0'
+      preact: '>=10.0.0'
+      react: '>=17.0.0'
+      solid-js: '>=1.9.7'
+      svelte: '>=5.0.0'
+      vue: '>=3.2.0'
+    peerDependenciesMeta:
+      '@angular/core':
+        optional: true
+      '@types/react':
+        optional: true
+      preact:
+        optional: true
+      react:
+        optional: true
+      solid-js:
+        optional: true
+      svelte:
+        optional: true
+      vue:
+        optional: true
+
+  '@tanstack/devtools-utils@0.7.0':
+    resolution: {integrity: sha512-D9oosgtwvOe5nHQuhCqO/pxZz923REExp2kTc2YaJQ5+0QjTU3xRU+KkwRbFmlJwEXRcJCeAGF5j9Y72TZQ/xQ==}
     engines: {node: '>=18'}
     hasBin: true
     peerDependencies:
@@ -2470,6 +2523,10 @@ packages:
   available-typed-arrays@1.0.7:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
+
+  axe-core@4.13.0:
+    resolution: {integrity: sha512-UzGt8zg7Ny8djbYMhxl2zuEevVa7r2gJjYY5Lwr1xM7+XU2nd6CkIWFTVcCIbAP63vSz71NaVyyuSk9lHKcy0A==}
+    engines: {node: '>=4'}
 
   babel-dead-code-elimination@1.0.12:
     resolution: {integrity: sha512-GERT7L2TiYcYDtYk1IpD+ASAYXjKbLTDPhBtYj7X1NuRMDTMtAx9kyBenub1Ev41lo91OHCKdmP+egTDmfQ7Ig==}
@@ -5594,6 +5651,20 @@ snapshots:
       tailwindcss: 4.3.3
       vite: '@voidzero-dev/vite-plus-core@0.3.1(@types/node@26.5.0)(@vitejs/devtools@0.7.2)(jiti@2.7.0)(typescript@7.0.2)'
 
+  '@tanstack/devtools-a11y@0.2.2(@types/react@19.2.18)(csstype@3.2.3)(react@19.2.8)(solid-js@1.9.15)':
+    dependencies:
+      '@tanstack/devtools-ui': 0.7.1(csstype@3.2.3)(solid-js@1.9.15)
+      '@tanstack/devtools-utils': 0.7.0(@types/react@19.2.18)(react@19.2.8)(solid-js@1.9.15)
+      '@types/react': 19.2.18
+      axe-core: 4.13.0
+      goober: 2.1.19(csstype@3.2.3)
+    optionalDependencies:
+      react: 19.2.8
+      solid-js: 1.9.15
+    transitivePeerDependencies:
+      - csstype
+      - svelte
+
   '@tanstack/devtools-bundler-core@0.1.3(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)':
     dependencies:
       '@tanstack/devtools-client': 0.0.8
@@ -5649,6 +5720,12 @@ snapshots:
       solid-js: 1.9.15
 
   '@tanstack/devtools-utils@0.6.0(@types/react@19.2.18)(react@19.2.8)(solid-js@1.9.15)':
+    optionalDependencies:
+      '@types/react': 19.2.18
+      react: 19.2.8
+      solid-js: 1.9.15
+
+  '@tanstack/devtools-utils@0.7.0(@types/react@19.2.18)(react@19.2.8)(solid-js@1.9.15)':
     optionalDependencies:
       '@types/react': 19.2.18
       react: 19.2.8
@@ -6525,6 +6602,8 @@ snapshots:
   available-typed-arrays@1.0.7:
     dependencies:
       possible-typed-array-names: 1.1.0
+
+  axe-core@4.13.0: {}
 
   babel-dead-code-elimination@1.0.12(supports-color@7.2.0):
     dependencies:

@@ -1,3 +1,4 @@
+import { a11yDevtoolsPlugin } from "@tanstack/devtools-a11y/react";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { FormDevtoolsPanel } from "@tanstack/react-form-devtools";
 import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
@@ -14,6 +15,7 @@ export function DevtoolsProvider() {
 				{ name: "TanStack Router", render: <TanStackRouterDevtoolsPanel router={router} /> },
 				{ name: "TanStack Form", render: <FormDevtoolsPanel /> },
 				{ name: "TanStack Table", render: <TableDevtoolsPanel /> },
+				a11yDevtoolsPlugin(),
 			]}
 		/>
 	);
