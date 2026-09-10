@@ -41,11 +41,14 @@ app.get("/api/health", (_req: Request, res: Response) => {
 });
 
 app.get("/api/pve1", async (req: Request, res: Response) => {
+	const timeframe = parseTimeframe(req.query.timeframe);
 	try {
-		const timeframe = parseTimeframe(req.query.timeframe);
 		res.status(200).json(await fetchNodeData(timeframe));
 	} catch (error) {
-		res.status(404).json(error);
+		console.error(`[PVE] Failed to fetch stats for timeframe "${timeframe}":`, error);
+		res.status(502).json({
+			error: error instanceof Error ? error.message : "Failed to fetch server stats",
+		});
 	}
 });
 
