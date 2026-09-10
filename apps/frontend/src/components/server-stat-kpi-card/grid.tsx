@@ -9,8 +9,10 @@ export interface ServerStatKpiGridProps {
 
 export function ServerStatKpiGrid({ children }: ServerStatKpiGridProps) {
 	return (
-		<div className="min-h-dvh overflow-hidden bg-default">
-			<div className="grid min-h-dvh grid-cols-1 place-content-center gap-3 p-3 sm:grid-cols-2 lg:grid-cols-4">{children}</div>
+		<div className="min-h-dvh overflow-x-hidden overflow-y-auto bg-default">
+			<div className="grid min-h-dvh grid-cols-1 place-content-center gap-3 p-3 pb-[max(1rem,env(safe-area-inset-bottom))] sm:grid-cols-2 lg:grid-cols-4">
+				{children}
+			</div>
 		</div>
 	);
 }
