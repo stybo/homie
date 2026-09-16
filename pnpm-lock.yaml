@@ -174,13 +174,13 @@ importers:
         specifier: ^2.22.0
         version: 2.22.0(react@19.3.0)
       '@heroui-pro/react':
-        specifier: 1.0.0-beta.8
-        version: 1.0.0-beta.8
+        specifier: 1.0.0-beta.9
+        version: 1.0.0-beta.9
       '@heroui/react':
-        specifier: ^3.2.4
+        specifier: ^3.2.5
         version: 3.2.5(@react-aria/i18n@3.13.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@react-aria/ssr@3.10.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@react-aria/utils@3.34.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@react-spectrum/provider@3.11.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-aria-components@1.21.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react-aria@3.52.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(tailwindcss@4.3.3)
       '@heroui/styles':
-        specifier: ^3.2.4
+        specifier: ^3.2.5
         version: 3.2.5(tailwind-merge@3.7.0)(tailwindcss@4.3.3)
       '@homie/types':
         specifier: workspace:*
@@ -188,6 +188,9 @@ importers:
       '@internationalized/date':
         specifier: ^3.12.4
         version: 3.12.4
+      '@react-aria/interactions':
+        specifier: ^3.28.1
+        version: 3.28.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@react-aria/utils':
         specifier: ^3.34.1
         version: 3.34.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -203,6 +206,9 @@ importers:
       react:
         specifier: ^19.2.8
         version: 19.3.0
+      react-aria:
+        specifier: ^3.52.1
+        version: 3.52.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       react-aria-components:
         specifier: ^1.21.1
         version: 1.21.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -215,6 +221,9 @@ importers:
       react-resizable-panels:
         specifier: ^4.12.4
         version: 4.12.4(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      react-stately:
+        specifier: ^3.50.0
+        version: 3.50.0(react@19.3.0)
       recharts:
         specifier: ^3.10.1
         version: 3.10.1(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react-is@17.0.2)(react@19.3.0)(redux@5.0.1)
@@ -564,8 +573,8 @@ packages:
       react:
         optional: true
 
-  '@heroui-pro/react@1.0.0-beta.8':
-    resolution: {integrity: sha512-kEXEdz5iu0YZLQQcEPGxyDS38YfvoC7cvdKmFRt9AsRdwKwqVZE9x/+SYom/qDj5j7Qt6UdX54B0/U8rycSuFw==}
+  '@heroui-pro/react@1.0.0-beta.9':
+    resolution: {integrity: sha512-KcYkDRbTXJYInAOzzaKbcVXEWt12b7tjkQijgX+ImsrO2KXXjGPgjKj9dy6h9f/WolkMW4IQ2iRjsfr/vgE25Q==}
 
   '@heroui/react@3.2.5':
     resolution: {integrity: sha512-rIbgbyuNkwHqiDnlaM8ctN+jX5YpERtpz6rXy2Tg0+Fs7jx3OCXBkkeR07SrXcTf3CzjKWPVKb/J7MWtWPsn8w==}
@@ -1311,6 +1320,12 @@ packages:
 
   '@react-aria/i18n@3.13.1':
     resolution: {integrity: sha512-z56ZYcbfpNmMyiGLhyEjytpmEfoTlBaksk84q4kds3HvNkf7QWKj+DJVfVDrJX+c1LyuBsszLSX7yxJRiHsYKQ==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+
+  '@react-aria/interactions@3.28.1':
+    resolution: {integrity: sha512-Bqb+HrD5I5MHS2SKBhISYqo2SW8Y2dfzgF/Y1lIJq7xqLxheo9vzxPGEHhz+XzkgGfoqEJx8A6a3C7uiqS3HWA==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
       react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
@@ -4997,7 +5012,7 @@ snapshots:
     optionalDependencies:
       react: 19.3.0
 
-  '@heroui-pro/react@1.0.0-beta.8':
+  '@heroui-pro/react@1.0.0-beta.9':
     dependencies:
       chalk: 5.6.2
       heroui-pro: 1.0.0-beta.13
@@ -5494,6 +5509,14 @@ snapshots:
       '@internationalized/date': 3.12.4
       '@internationalized/message': 3.1.10
       '@internationalized/string': 3.2.10
+      '@swc/helpers': 0.5.23
+      react: 19.3.0
+      react-aria: 3.52.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      react-dom: 19.3.0(react@19.3.0)
+
+  '@react-aria/interactions@3.28.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
+    dependencies:
+      '@react-types/shared': 3.36.1(react@19.3.0)
       '@swc/helpers': 0.5.23
       react: 19.3.0
       react-aria: 3.52.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
