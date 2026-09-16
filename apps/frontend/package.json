@@ -5,7 +5,7 @@
 	"type": "module",
 	"dependencies": {
 		"@gravity-ui/icons": "^2.22.0",
-		"@heroui-pro/react": "1.0.0-beta.8",
+		"@heroui-pro/react": "1.0.0-beta.9",
 		"@heroui/react": "^3.2.5",
 		"@heroui/styles": "^3.2.5",
 		"@homie/types": "workspace:*",
