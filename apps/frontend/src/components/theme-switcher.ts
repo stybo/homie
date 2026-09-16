@@ -16,7 +16,7 @@ export function getTimeBasedTheme(): "light" | "dark" {
 	const isAfterMorningHour = current.hour >= MORNING_START_HOUR;
 	const isBeforeSunset = Boolean(sunset && date < sunset);
 
-	const isDaytime = (isAfterSunrise || isAfterMorningHour) && isBeforeSunset;
+	const isDaytime = isAfterSunrise && isAfterMorningHour && isBeforeSunset;
 
 	return isDaytime ? "light" : "dark";
 }
