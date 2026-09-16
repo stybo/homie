@@ -28,7 +28,7 @@ export default defineConfig({
 		],
 		settings: {
 			tailwindcss: {
-				entryPoint: "./apps/frontend/src/globals.css",
+				entryPoint: `${import.meta.dirname}/apps/frontend/src/globals.css`,
 			},
 		},
 		rules: {
