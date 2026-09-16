@@ -1,5 +1,5 @@
-import { defineRule } from "vite-plus/lint/plugins";
-import type { ESTree } from "vite-plus/lint/plugins";
+import { defineRule } from "@oxlint/plugins";
+import type { ESTree } from "@oxlint/plugins";
 
 const SERVICE_CONSTRUCTOR_NAME = /^make[A-Z]/u;
 const TEST_FILE = /\.(?:test|spec)\.[cm]?[jt]sx?$/u;
