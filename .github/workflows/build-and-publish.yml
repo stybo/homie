@@ -17,17 +17,17 @@ jobs:
     uses: ./.github/workflows/qa.yml
     secrets: inherit
 
-  build-and-publish:
-    name: Build & Publish
-    needs: run-qa
+  detect-changes:
+    name: Detect Changes
     runs-on: ubuntu-latest
-    environment: production
-
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      frontend: ${{ steps.filter.outputs.frontend }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
 
-      - name: Detect changed paths
+      - name: Check paths
         id: filter
         uses: dorny/paths-filter@v3
         with:
@@ -45,12 +45,19 @@ jobs:
               - 'pnpm-lock.yaml'
               - 'pnpm-workspace.yaml'
 
+  build-backend:
+    name: Build Backend
+    needs: [run-qa, detect-changes]
+    if: needs.detect-changes.outputs.backend == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
       - name: Set up Docker Buildx
-        if: steps.filter.outputs.backend == 'true' || steps.filter.outputs.frontend == 'true' || github.event_name == 'workflow_dispatch'
         uses: docker/setup-buildx-action@v4
 
       - name: Login to GHCR
-        if: steps.filter.outputs.backend == 'true' || steps.filter.outputs.frontend == 'true' || github.event_name == 'workflow_dispatch'
         uses: docker/login-action@v4
         with:
           registry: ghcr.io
@@ -58,7 +65,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push backend
-        if: steps.filter.outputs.backend == 'true' || github.event_name == 'workflow_dispatch'
         uses: docker/build-push-action@v7
         with:
           context: .
@@ -68,8 +74,26 @@ jobs:
           cache-to: type=gha,mode=max,scope=backend
           tags: ghcr.io/stybo/homie/backend:latest
 
+  build-frontend:
+    name: Build Frontend
+    needs: [run-qa, detect-changes]
+    if: needs.detect-changes.outputs.frontend == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build and push the frontend image
-        if: steps.filter.outputs.frontend == 'true' || github.event_name == 'workflow_dispatch'
         uses: docker/build-push-action@v7
         with:
           context: .
@@ -80,17 +104,23 @@ jobs:
           tags: ghcr.io/stybo/homie/frontend:latest
           secrets: HEROUI_AUTH_TOKEN=${{ secrets.HEROUI_AUTH_TOKEN }}
 
+  deploy:
+    name: Deploy to Dokploy
+    needs: [build-backend, build-frontend]
+    if: |
+      always() &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
+      (needs.build-backend.result == 'success' || needs.build-frontend.result == 'success')
+    runs-on: ubuntu-latest
+    steps:
       - name: Connect to Tailscale
-        if: steps.filter.outputs.backend == 'true' || steps.filter.outputs.frontend == 'true' || github.event_name == 'workflow_dispatch'
         uses: tailscale/github-action@v3
         with:
-          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
-          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
-          tags: tag:ci
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
           args: --accept-dns=true --accept-routes=true
 
       - name: Trigger Dokploy Deployment Webhook
-        if: steps.filter.outputs.backend == 'true' || steps.filter.outputs.frontend == 'true' || github.event_name == 'workflow_dispatch'
         env:
           DOKPLOY_WEBHOOK_URL: ${{ secrets.DOKPLOY_WEBHOOK_URL }}
         run: |
