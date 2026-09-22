@@ -52,6 +52,11 @@ jobs:
           tags: ghcr.io/stybo/homie/frontend:latest
           secrets: HEROUI_AUTH_TOKEN=${{ secrets.HEROUI_AUTH_TOKEN }}
 
+      - name: Connect to Tailscale
+        uses: tailscale/github-action@v3
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+
       - name: Trigger Dokploy Deployment Webhook
         env:
           DOKPLOY_WEBHOOK_URL: ${{ secrets.DOKPLOY_WEBHOOK_URL }}
