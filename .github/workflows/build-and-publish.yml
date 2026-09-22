@@ -53,6 +53,9 @@ jobs:
           secrets: HEROUI_AUTH_TOKEN=${{ secrets.HEROUI_AUTH_TOKEN }}
 
       - name: Trigger Dokploy Deployment Webhook
-        if: ${{ success() && secrets.DOKPLOY_WEBHOOK_URL != '' }}
+        env:
+          DOKPLOY_WEBHOOK_URL: ${{ secrets.DOKPLOY_WEBHOOK_URL }}
         run: |
-          curl -f -X POST "${{ secrets.DOKPLOY_WEBHOOK_URL }}"
+          if [ -n "$DOKPLOY_WEBHOOK_URL" ]; then
+            curl -f -X POST "$DOKPLOY_WEBHOOK_URL"
+          fi
