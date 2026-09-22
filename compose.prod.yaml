@@ -1,7 +1,7 @@
 services:
   backend:
     container_name: homie-backend
-    image: ghcr.io/stybo/monorepo/backend:latest
+    image: ghcr.io/stybo/homie/backend:latest
     restart: unless-stopped
     ports:
       - "10000:10000"
@@ -10,7 +10,7 @@ services:
 
   frontend:
     container_name: homie-frontend
-    image: ghcr.io/stybo/monorepo/frontend:latest
+    image: ghcr.io/stybo/homie/frontend:latest
     restart: unless-stopped
     depends_on:
       - backend
