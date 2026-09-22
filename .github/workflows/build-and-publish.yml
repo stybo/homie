@@ -118,6 +118,4 @@ jobs:
         env:
           DOKPLOY_WEBHOOK_URL: ${{ secrets.DOKPLOY_WEBHOOK_URL }}
         run: |
-          if [ -n "$DOKPLOY_WEBHOOK_URL" ]; then
-            curl -f -X POST "$DOKPLOY_WEBHOOK_URL"
-          fi
+          curl -f -X POST "$DOKPLOY_WEBHOOK_URL"
