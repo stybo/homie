@@ -3,8 +3,6 @@ services:
     container_name: homie-backend
     image: ghcr.io/stybo/homie/backend:latest
     restart: unless-stopped
-    ports:
-      - "10000:10000"
     environment:
       - NODE_ENV=production
 
