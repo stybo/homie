@@ -1,0 +1,18 @@
+services:
+  backend:
+    container_name: homie-backend
+    image: ghcr.io/stybo/monorepo/backend:latest
+    restart: unless-stopped
+    ports:
+      - "10000:10000"
+    environment:
+      - NODE_ENV=production
+
+  frontend:
+    container_name: homie-frontend
+    image: ghcr.io/stybo/monorepo/frontend:latest
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"

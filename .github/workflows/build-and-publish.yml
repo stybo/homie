@@ -31,6 +31,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Lowercase repository name
+        run: echo "IMAGE_PREFIX=ghcr.io/$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
       - name: Build and push backend
         uses: docker/build-push-action@v7
         with:
@@ -39,7 +42,7 @@ jobs:
           push: true
           cache-from: type=gha,scope=backend
           cache-to: type=gha,mode=max,scope=backend
-          tags: ghcr.io/${{ github.repository }}/backend:latest
+          tags: ${{ env.IMAGE_PREFIX }}/backend:latest
 
       - name: Build and push the frontend image
         uses: docker/build-push-action@v7
@@ -49,5 +52,10 @@ jobs:
           push: true
           cache-from: type=gha,scope=frontend
           cache-to: type=gha,mode=max,scope=frontend
-          tags: ghcr.io/${{ github.repository }}/frontend:latest
+          tags: ${{ env.IMAGE_PREFIX }}/frontend:latest
           secrets: HEROUI_AUTH_TOKEN=${{ secrets.HEROUI_AUTH_TOKEN }}
+
+      - name: Trigger Dokploy Deployment Webhook
+        if: ${{ success() && secrets.DOKPLOY_WEBHOOK_URL != '' }}
+        run: |
+          curl -f -X POST "${{ secrets.DOKPLOY_WEBHOOK_URL }}"
