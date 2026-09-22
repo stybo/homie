@@ -6,7 +6,7 @@
 	"main": "app.ts",
 	"dependencies": {
 		"@homie/types": "workspace:*",
-		"dotenv": "^17.4.2",
+		"dotenv": "^18.0.3",
 		"express": "^5.2.1"
 	},
 	"devDependencies": {

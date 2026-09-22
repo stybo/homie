@@ -1,4 +1,4 @@
-import type { ESTree, Scope, SourceCode, Variable } from "@oxlint/plugins";
+import type { ESTree, Scope, SourceCode, Variable } from "vite-plus/lint/plugins";
 
 function resolveVariable(sourceCode: SourceCode, identifier: ESTree.IdentifierReference): Variable | null {
 	let scope: Scope | null = sourceCode.getScope(identifier);
