@@ -112,14 +112,8 @@ jobs:
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
       (needs.build-backend.result == 'success' || needs.build-frontend.result == 'success')
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
-      - name: Connect to Tailscale
-        uses: tailscale/github-action@v3
-        with:
-          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
-          args: --accept-dns=true --accept-routes=true
-
       - name: Trigger Dokploy Deployment Webhook
         env:
           DOKPLOY_WEBHOOK_URL: ${{ secrets.DOKPLOY_WEBHOOK_URL }}
