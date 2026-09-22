@@ -48,7 +48,7 @@ jobs:
   build-backend:
     name: Build Backend
     needs: [run-qa, detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || github.event_name == 'workflow_dispatch'
+    if: needs.detect-changes.outputs.backend == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -77,7 +77,7 @@ jobs:
   build-frontend:
     name: Build Frontend
     needs: [run-qa, detect-changes]
-    if: needs.detect-changes.outputs.frontend == 'true' || github.event_name == 'workflow_dispatch'
+    if: needs.detect-changes.outputs.frontend == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
