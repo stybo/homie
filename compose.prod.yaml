@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
     environment:
       - NODE_ENV=production
+      - PROXMOX_TOKEN=${PROXMOX_TOKEN}
 
   frontend:
     container_name: homie-frontend
