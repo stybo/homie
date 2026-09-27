@@ -2,6 +2,8 @@
 FROM ghcr.io/voidzero-dev/vite-plus:latest AS build
 WORKDIR /app
 COPY --chown=vp:vp package.json pnpm-lock.yaml pnpm-workspace.yaml .node-version* ./
+COPY --chown=vp:vp apps/backend/package.json ./apps/backend/
+COPY --chown=vp:vp packages/types/package.json ./packages/types/
 RUN vp pm ci
 COPY --chown=vp:vp . .
 RUN vp -C apps/backend build
