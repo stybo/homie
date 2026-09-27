@@ -9,7 +9,7 @@
 		"@types/node": "^26.6.3",
 		"eslint-plugin-perfectionist": "^5.12.1",
 		"eslint-plugin-react": "^7.37.5",
-		"oxlint-tailwindcss": "^1.13.0",
+		"oxlint-tailwindcss": "^1.14.0",
 		"typescript": "^7.0.2",
 		"vite": "catalog:",
 		"vite-plus": "catalog:"
