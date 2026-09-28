@@ -2,6 +2,7 @@ services:
   app:
     container_name: homie
     image: ghcr.io/stybo/homie:latest
+    pull_policy: always
     restart: unless-stopped
     ports:
       - "8080:8080"
