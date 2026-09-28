@@ -63,9 +63,6 @@ export default defineConfig({
 			"eslint-tanstack-query/stable-query-client": "error",
 			"eslint-tanstack-router/create-route-property-order": "error",
 
-			// --- OXC ---
-			"oxc/no-async-endpoint-handlers": "off",
-
 			// --- Perfectionist JSX Props Sorting ---
 			"perfectionist/sort-jsx-props": [
 				"error",

@@ -14,7 +14,7 @@ export interface ChartProps {
 export function Chart({ title, data, series, formatValue }: ChartProps) {
 	return (
 		<AreaChart
-			className="kpi__chart w-full select-none **:outline-none"
+			className="kpi__chart w-full select-none"
 			data={data}
 			data-has-tooltip="true"
 			height={60}
