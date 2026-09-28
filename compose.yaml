@@ -1,25 +1,12 @@
 services:
-  frontend:
-    container_name: homie-frontend
-    image: homie-frontend
+  app:
+    container_name: homie
     build:
       context: .
-      dockerfile: apps/frontend/Dockerfile
     ports:
-      - "8080:80"
-    depends_on:
-      - backend
-    restart: unless-stopped
-
-  backend:
-    container_name: homie-backend
-    build:
-      context: .
-      dockerfile: apps/backend/Dockerfile
-    ports:
-      - "10000:10000"
+      - "3000:3000"
     environment:
       - NODE_ENV=production
     env_file:
-      - apps/backend/.env
+      - .env
     restart: unless-stopped
