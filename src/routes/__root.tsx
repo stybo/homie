@@ -38,7 +38,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
 			<head>
 				<HeadContent />
 			</head>
-			<body className="bg-default">
+			<body>
 				{children}
 				<DevtoolsProvider />
 				<Scripts />
