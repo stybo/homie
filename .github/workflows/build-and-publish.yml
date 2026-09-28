@@ -4,12 +4,10 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths:
-      - "apps/**"
-      - "packages/**"
-      - "package.json"
-      - "pnpm-lock.yaml"
-      - "pnpm-workspace.yaml"
+    paths-ignore:
+      - ".gitignore"
+      - ".env.example"
+      - ".idea/**"
 
 jobs:
   run-qa:
@@ -17,38 +15,9 @@ jobs:
     uses: ./.github/workflows/qa.yml
     secrets: inherit
 
-  detect-changes:
-    name: Detect Changes
-    runs-on: ubuntu-latest
-    outputs:
-      backend: ${{ steps.filter.outputs.backend }}
-      frontend: ${{ steps.filter.outputs.frontend }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v7
-
-      - name: Check paths
-        id: filter
-        uses: dorny/paths-filter@v4
-        with:
-          filters: |
-            backend:
-              - 'apps/backend/**'
-              - 'packages/**'
-              - 'package.json'
-              - 'pnpm-lock.yaml'
-              - 'pnpm-workspace.yaml'
-            frontend:
-              - 'apps/frontend/**'
-              - 'packages/**'
-              - 'package.json'
-              - 'pnpm-lock.yaml'
-              - 'pnpm-workspace.yaml'
-
-  build-backend:
-    name: Build Backend
-    needs: [run-qa, detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true'
+  build-and-publish:
+    name: Build and Publish Image
+    needs: [run-qa]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -64,54 +33,21 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push backend
+      - name: Build and push Docker image
         uses: docker/build-push-action@v7
         with:
           context: .
-          file: apps/backend/Dockerfile
+          file: Dockerfile
           push: true
-          cache-from: type=gha,scope=backend
-          cache-to: type=gha,mode=max,scope=backend
-          tags: ghcr.io/stybo/homie/backend:latest
-
-  build-frontend:
-    name: Build Frontend
-    needs: [run-qa, detect-changes]
-    if: needs.detect-changes.outputs.frontend == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v7
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4
-
-      - name: Login to GHCR
-        uses: docker/login-action@v4
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push the frontend image
-        uses: docker/build-push-action@v7
-        with:
-          context: .
-          file: apps/frontend/Dockerfile
-          push: true
-          cache-from: type=gha,scope=frontend
-          cache-to: type=gha,mode=max,scope=frontend
-          tags: ghcr.io/stybo/homie/frontend:latest
-          secrets: HEROUI_AUTH_TOKEN=${{ secrets.HEROUI_AUTH_TOKEN }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: ghcr.io/stybo/homie:latest
+          secrets: |
+            HEROUI_AUTH_TOKEN=${{ secrets.HEROUI_AUTH_TOKEN }}
 
   deploy:
     name: Deploy to Dokploy
-    needs: [build-backend, build-frontend]
-    if: |
-      always() &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      (needs.build-backend.result == 'success' || needs.build-frontend.result == 'success')
+    needs: [build-and-publish]
     runs-on: self-hosted
     steps:
       - name: Trigger Dokploy Deployment Webhook

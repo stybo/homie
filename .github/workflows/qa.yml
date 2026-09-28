@@ -27,3 +27,6 @@ jobs:
 
       - name: Test code
         run: vp test
+
+      - name: Build code
+        run: vp build
