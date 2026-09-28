@@ -1,9 +1,10 @@
 import type { QueryClient } from "@tanstack/react-query";
 import { createRootRouteWithContext, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+import { RouteNotFound } from "../components/route-not-found.tsx";
 import { useAutoTheme } from "../components/theme-switcher.ts";
-import "../styles/globals.css";
 import { DevtoolsProvider } from "../providers/DevtoolsProvider.tsx";
+import "../styles/globals.css";
 
 interface RouterContext {
 	queryClient: QueryClient;
@@ -11,6 +12,7 @@ interface RouterContext {
 
 export const Route = createRootRouteWithContext<RouterContext>()({
 	component: RootComponent,
+	notFoundComponent: RouteNotFound,
 	head: () => ({
 		meta: [
 			{ charSet: "utf-8" },
@@ -36,7 +38,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
 			<head>
 				<HeadContent />
 			</head>
-			<body>
+			<body className="bg-default">
 				{children}
 				<DevtoolsProvider />
 				<Scripts />

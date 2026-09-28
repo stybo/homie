@@ -2,11 +2,6 @@
 @import "@heroui/styles";
 @import "@heroui-pro/react/css";
 
-html,
-#root {
-	@apply bg-default;
-}
-
 .light {
 	--chart-primary: #06b6d4;
 	--chart-total: #c084fc;
