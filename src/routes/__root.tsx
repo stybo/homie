@@ -2,7 +2,7 @@ import type { QueryClient } from "@tanstack/react-query";
 import { createRootRouteWithContext, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { useAutoTheme } from "../components/theme-switcher.ts";
-import "../globals.css";
+import "../styles/globals.css";
 import { DevtoolsProvider } from "../providers/DevtoolsProvider.tsx";
 
 interface RouterContext {
@@ -20,6 +20,16 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 	}),
 });
 
+function RootComponent() {
+	useAutoTheme();
+
+	return (
+		<RootDocument>
+			<Outlet />
+		</RootDocument>
+	);
+}
+
 function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
 	return (
 		<html suppressHydrationWarning lang="en">
@@ -32,15 +42,5 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
 				<Scripts />
 			</body>
 		</html>
-	);
-}
-
-function RootComponent() {
-	useAutoTheme();
-
-	return (
-		<RootDocument>
-			<Outlet />
-		</RootDocument>
 	);
 }

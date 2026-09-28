@@ -137,7 +137,7 @@ export default defineConfig({
 		},
 		settings: {
 			tailwindcss: {
-				entryPoint: `${import.meta.dirname}/src/globals.css`,
+				entryPoint: "./src/styles/globals.css",
 			},
 		},
 	},
