@@ -12,30 +12,15 @@ RUN --mount=type=secret,id=HEROUI_AUTH_TOKEN,env=HEROUI_AUTH_TOKEN,required=fals
 COPY --chown=vp:vp . .
 RUN vp build
 
-# Export the exact resolved Node.js binary for the runtime stage.
-RUN cp "$(vp env which node | head -1)" /tmp/node
-
-# --- deps stage: production-only dependencies ---
-# A separate, fresh `--prod` install so devDependencies (including the vite-plus
-# toolchain) are excluded. Running `--prod` over the full install above would not
-# prune the already-installed devDependencies.
-FROM ghcr.io/voidzero-dev/vite-plus:latest AS deps
-WORKDIR /app
-COPY --chown=vp:vp package.json pnpm-lock.yaml pnpm-workspace.yaml .node-version* ./
-RUN --mount=type=secret,id=HEROUI_AUTH_TOKEN,env=HEROUI_AUTH_TOKEN,required=false vp install --frozen-lockfile --prod
-
-# --- runtime stage: small, glibc, no vp ---
-FROM debian:bookworm-slim AS runtime
+# --- runtime stage: official slim Node runtime with matching .node-version ---
+FROM node:26-bookworm-slim AS runtime
 WORKDIR /app
 ENV NODE_ENV=production
+ENV NITRO_PORT=8080
 
-# The exact Node.js from .node-version (official, signature-verified build).
-COPY --from=build /tmp/node /usr/local/bin/node
-
+# Standalone Nitro server output (fully self-contained, no node_modules required)
 COPY --from=build /app/.output ./.output
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=build /app/package.json ./
 
-USER nobody
-EXPOSE 3000
+USER node
+EXPOSE 8080
 CMD ["node", ".output/server/index.mjs"]
