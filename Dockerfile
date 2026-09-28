@@ -1,5 +1,3 @@
-# syntax=docker/dockerfile:1
-
 # --- build stage: the official Vite+ toolchain image ---
 FROM ghcr.io/voidzero-dev/vite-plus:latest AS build
 WORKDIR /app
@@ -12,8 +10,8 @@ RUN --mount=type=secret,id=HEROUI_AUTH_TOKEN,env=HEROUI_AUTH_TOKEN,required=fals
 COPY --chown=vp:vp . .
 RUN vp build
 
-# --- runtime stage: official slim Node runtime with matching .node-version ---
-FROM node:26-bookworm-slim AS runtime
+# --- runtime stage: official alpine Node runtime with matching .node-version ---
+FROM node:26-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NITRO_PORT=8080
