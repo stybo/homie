@@ -1,6 +1,6 @@
 import { AreaChart } from "@heroui-pro/react/area-chart";
 import { ChartTooltip } from "@heroui-pro/react/chart-tooltip";
-import type { ProxmoxRrdRawDataPoint } from "@homie/types";
+import type { ProxmoxRrdRawDataPoint } from "../../types/index.ts";
 import { formatTime } from "./formatters.ts";
 import type { MetricSeriesConfig } from "./types.ts";
 
@@ -14,7 +14,7 @@ export interface ChartProps {
 export function Chart({ title, data, series, formatValue }: ChartProps) {
 	return (
 		<AreaChart
-			className="kpi__chart w-full select-none **:outline-none"
+			className="kpi__chart w-full select-none"
 			data={data}
 			data-has-tooltip="true"
 			height={60}

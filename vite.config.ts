@@ -1,22 +1,30 @@
+import tailwindcss from "@tailwindcss/vite";
+import { devtools } from "@tanstack/devtools-vite";
+import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import react from "@vitejs/plugin-react";
+import { nitro } from "nitro/vite";
 import { defineConfig } from "vite-plus";
 
 export default defineConfig({
-	run: {
-		tasks: { dev: "vp run -r --parallel dev" },
+	build: {
+		rolldownOptions: {
+			checks: {
+				moduleLevelDirective: false,
+			},
+		},
 	},
 	fmt: {
-		ignorePatterns: ["pnpm-lock.yaml", "routeTree.gen.ts", ".tanstack", "dist", ".idea"],
+		ignorePatterns: ["pnpm-lock.yaml", "routeTree.gen.ts", ".tanstack", "dist", ".idea", ".output"],
 		printWidth: 140,
 		sortDescending: true,
 		sortImports: { newlinesBetween: false },
 		sortPackageJson: true,
-		sortTailwindcss: { stylesheet: "./apps/frontend/src/globals.css" },
+		sortTailwindcss: { stylesheet: "./src/globals.css" },
 		useTabs: true,
 	},
 	lint: {
 		categories: { correctness: "error", perf: "error", suspicious: "warn" },
-		options: { typeAware: true, typeCheck: true },
-		ignorePatterns: ["dist", "tools/oxlint/anti-slop/**", "vite.config.ts"],
+		ignorePatterns: ["dist", ".output", "tools/oxlint/anti-slop/**", "vite.config.ts"],
 		jsPlugins: [
 			{ name: "vite-plus", specifier: "vite-plus/oxlint-plugin" },
 			{ name: "react-js", specifier: "eslint-plugin-react" },
@@ -26,11 +34,7 @@ export default defineConfig({
 			{ name: "anti-slop", specifier: "./tools/oxlint/anti-slop/index.ts" },
 			{ name: "tailwindcss", specifier: "oxlint-tailwindcss" },
 		],
-		settings: {
-			tailwindcss: {
-				entryPoint: `${import.meta.dirname}/apps/frontend/src/globals.css`,
-			},
-		},
+		options: { typeAware: true, typeCheck: true },
 		rules: {
 			// --- Anti-Slop ---
 			"anti-slop/no-chained-type-assertions": "error",
@@ -66,7 +70,6 @@ export default defineConfig({
 			"perfectionist/sort-jsx-props": [
 				"error",
 				{
-					type: "natural",
 					customGroups: [
 						{
 							elementNamePattern: "^(title|name|label)$",
@@ -84,6 +87,7 @@ export default defineConfig({
 					groups: ["shorthand-prop", "titles", "identifiers", "unknown", "callbacks", "multiline-prop"],
 					ignoreCase: true,
 					order: "asc",
+					type: "natural",
 				},
 			],
 
@@ -91,7 +95,6 @@ export default defineConfig({
 			"perfectionist/sort-objects": [
 				"error",
 				{
-					type: "natural",
 					customGroups: [
 						{
 							elementNamePattern: "^(id|key|queryKey|mutationKey|name|title|label|icon|dataKey|type|variant|path)$",
@@ -108,41 +111,49 @@ export default defineConfig({
 					groups: ["identifiers", "loaders", "components", "handlers", "unknown", "callbacks"],
 					ignoreCase: true,
 					order: "asc",
+					type: "natural",
 				},
 			],
 
 			// --- Tailwind CSS ---
-			// Correctness
-			"tailwindcss/no-unknown-classes": "error",
-			"tailwindcss/no-duplicate-classes": "error",
-			"tailwindcss/no-conflicting-classes": "error",
-			"tailwindcss/no-deprecated-classes": "error",
-			"tailwindcss/no-unnecessary-whitespace": "error",
-			"tailwindcss/no-dark-without-light": "warn",
-			"tailwindcss/no-contradicting-variants": "warn",
-			// Style
-			"tailwindcss/enforce-canonical": "warn",
-			"tailwindcss/enforce-sort-order": "warn",
-			"tailwindcss/enforce-shorthand": "warn",
-			"tailwindcss/enforce-logical": "off",
-			"tailwindcss/enforce-physical": "off",
-			"tailwindcss/enforce-consistent-important-position": "warn",
-			"tailwindcss/enforce-negative-arbitrary-values": "warn",
-			"tailwindcss/enforce-consistent-variable-syntax": "warn",
 			"tailwindcss/consistent-variant-order": "warn",
-			// Complexity
-			"tailwindcss/max-class-count": "off",
-			"tailwindcss/enforce-consistent-line-wrapping": "off",
-			// Restrictions
-			"tailwindcss/no-restricted-classes": "off",
-			"tailwindcss/no-arbitrary-value": "off",
+			"tailwindcss/enforce-canonical": "warn",
+			"tailwindcss/enforce-consistent-important-position": "warn",
+			"tailwindcss/enforce-consistent-variable-syntax": "warn",
+			"tailwindcss/enforce-negative-arbitrary-values": "warn",
+			"tailwindcss/enforce-shorthand": "warn",
+			"tailwindcss/enforce-sort-order": "warn",
+			"tailwindcss/no-conflicting-classes": "error",
+			"tailwindcss/no-dark-without-light": "warn",
+			"tailwindcss/no-deprecated-classes": "error",
+			"tailwindcss/no-duplicate-classes": "error",
 			"tailwindcss/no-hardcoded-colors": "warn",
 			"tailwindcss/no-unnecessary-arbitrary-value": "warn",
-			"tailwindcss/prefer-theme-tokens": "off",
+			"tailwindcss/no-unnecessary-whitespace": "error",
+			"tailwindcss/no-unknown-classes": "error",
 
 			// --- Vite Plus ---
 			"vite-plus/prefer-vite-plus-imports": "error",
 		},
+		settings: {
+			tailwindcss: {
+				entryPoint: `${import.meta.dirname}/src/globals.css`,
+			},
+		},
+	},
+	plugins: [devtools(), tanstackStart(), nitro(), tailwindcss(), react({ compiler: true })],
+	run: {
+		tasks: {
+			build: "vp build",
+			check: "vp check",
+			dev: "vp dev",
+			preview: "open http://localhost:3000 & node --env-file=.env .output/server/index.mjs",
+			start: "node --env-file=.env .output/server/index.mjs",
+			test: "vp test",
+		},
+	},
+	ssr: {
+		noExternal: ["@gravity-ui/icons"],
 	},
 	staged: {
 		"*": "vp check --fix && vp test",

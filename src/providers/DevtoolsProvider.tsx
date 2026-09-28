@@ -1,11 +1,14 @@
 import { a11yDevtoolsPlugin } from "@tanstack/devtools-a11y/react";
 import { TanStackDevtools } from "@tanstack/react-devtools";
+import { useQueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
+import { useRouter } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-import { queryClient } from "./QueryClient.ts";
-import { router } from "./Router.ts";
 
 export function DevtoolsProvider() {
+	const queryClient = useQueryClient();
+	const router = useRouter();
+
 	return (
 		<TanStackDevtools
 			plugins={[

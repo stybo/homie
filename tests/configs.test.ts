@@ -1,7 +1,7 @@
-import type { ProxmoxRrdRawDataPoint } from "@homie/types";
 import { describe, expect, it } from "vite-plus/test";
 import { METRIC_CONFIGS } from "../src/components/server-stat-kpi-card/configs.tsx";
 import type { ServerMetricKey } from "../src/components/server-stat-kpi-card/types.ts";
+import type { ProxmoxRrdRawDataPoint } from "../src/types/index.ts";
 
 const samplePoint: ProxmoxRrdRawDataPoint = {
 	arcsize: 1000,
