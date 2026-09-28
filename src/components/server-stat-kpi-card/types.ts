@@ -1,5 +1,5 @@
-import type { ProxmoxDataKey, ProxmoxRrdRawDataPoint } from "@homie/types";
 import type { ReactNode } from "react";
+import type { ProxmoxDataKey, ProxmoxRrdRawDataPoint } from "../../types";
 
 export const METRIC_KEYS = ["cpu", "loadavg", "netin", "netout", "pressureiosome", "memused", "swapused", "rootused"] as const;
 

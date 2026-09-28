@@ -1,17 +1,10 @@
 services:
-  backend:
-    container_name: homie-backend
-    image: ghcr.io/stybo/homie/backend:latest
+  app:
+    container_name: homie
+    image: ghcr.io/stybo/homie:latest
     restart: unless-stopped
+    ports:
+      - "3000:3000"
     environment:
       - NODE_ENV=production
       - PROXMOX_TOKEN=${PROXMOX_TOKEN}
-
-  frontend:
-    container_name: homie-frontend
-    image: ghcr.io/stybo/homie/frontend:latest
-    restart: unless-stopped
-    depends_on:
-      - backend
-    ports:
-      - "8080:80"

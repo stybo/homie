@@ -1,9 +1,5 @@
 minimumReleaseAge: 0
 
-packages:
-  - apps/*
-  - packages/*
-
 catalogMode: manual
 
 catalog:
@@ -19,7 +15,6 @@ peerDependencyRules:
 
 allowBuilds:
   "@heroui-pro/react": true
-  "@sentry/node-cpu-profiler": true
   "@zowe/secrets-for-zowe-sdk": true
   heroui-native-pro: true
   heroui-pro: true
