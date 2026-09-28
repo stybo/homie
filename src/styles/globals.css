@@ -3,7 +3,6 @@
 @import "@heroui-pro/react/css";
 
 html,
-body,
 #root {
 	@apply bg-default;
 }
