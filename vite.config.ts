@@ -19,7 +19,7 @@ export default defineConfig({
 		sortDescending: true,
 		sortImports: { newlinesBetween: false },
 		sortPackageJson: true,
-		sortTailwindcss: { stylesheet: "./src/globals.css" },
+		sortTailwindcss: { stylesheet: "./src/styles/globals.css" },
 		useTabs: true,
 	},
 	lint: {
@@ -148,6 +148,9 @@ export default defineConfig({
 			start: "NITRO_PORT=8080 node --env-file=.env .output/server/index.mjs",
 			test: "vp test",
 		},
+	},
+	server: {
+		port: 8080,
 	},
 	ssr: {
 		noExternal: ["@gravity-ui/icons"],
