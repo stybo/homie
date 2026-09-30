@@ -23,25 +23,10 @@ jobs:
           run-install: true
 
       - name: Check code
-        run: |
-          vpr -v check | tee check.log
-          echo "### 🔍 Vite+ Check Summary" >> $GITHUB_STEP_SUMMARY
-          echo '```text' >> $GITHUB_STEP_SUMMARY
-          vpr --last-details >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
+        run: vpr check
 
       - name: Test code
-        run: |
-          vpr -v test | tee test.log
-          echo "### 🧪 Vite+ Test Summary" >> $GITHUB_STEP_SUMMARY
-          echo '```text' >> $GITHUB_STEP_SUMMARY
-          vpr --last-details >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
+        run: vpr test
 
       - name: Build code
-        run: |
-          vpr -v build | tee build.log
-          echo "### 📦 Vite+ Build Summary" >> $GITHUB_STEP_SUMMARY
-          echo '```text' >> $GITHUB_STEP_SUMMARY
-          vpr --last-details >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
+        run: vpr build

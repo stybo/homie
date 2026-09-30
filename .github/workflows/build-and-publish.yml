@@ -46,13 +46,6 @@ jobs:
           secrets: |
             HEROUI_AUTH_TOKEN=${{ secrets.HEROUI_AUTH_TOKEN }}
 
-      - name: Publish Deployment Summary
-        if: always()
-        run: |
-          echo "### 🚀 Image Deployment Summary" >> $GITHUB_STEP_SUMMARY
-          echo "- **Image Tag:** \`ghcr.io/stybo/homie:latest\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **Image Digest:** \`${{ steps.build.outputs.digest }}\`" >> $GITHUB_STEP_SUMMARY
-
   deploy:
     name: Deploy to Dokploy
     needs: [build-and-publish]
