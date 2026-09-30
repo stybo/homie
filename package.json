@@ -18,6 +18,7 @@
 		"@tanstack/start-client-core": "^1.170.34",
 		"@tanstack/start-server-core": "^1.169.39",
 		"motion": "^13.4.6",
+		"next-themes": "^0.4.6",
 		"nitro": "3.0.260903-beta",
 		"react": "^19.3.0",
 		"react-aria": "^3.52.1",

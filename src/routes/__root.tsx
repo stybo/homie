@@ -1,5 +1,6 @@
 import type { QueryClient } from "@tanstack/react-query";
 import { createRootRouteWithContext, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
+import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
 import { RouteNotFound } from "../components/route-not-found.tsx";
 import { useAutoTheme } from "../components/theme-switcher.ts";
@@ -22,9 +23,12 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 	}),
 });
 
-function RootComponent() {
+function AutoTheme() {
 	useAutoTheme();
+	return null;
+}
 
+function RootComponent() {
 	return (
 		<RootDocument>
 			<Outlet />
@@ -38,9 +42,12 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
 			<head>
 				<HeadContent />
 			</head>
-			<body>
-				{children}
-				<DevtoolsProvider />
+			<body className="bg-background text-foreground">
+				<ThemeProvider>
+					<AutoTheme />
+					{children}
+					<DevtoolsProvider />
+				</ThemeProvider>
 				<Scripts />
 			</body>
 		</html>

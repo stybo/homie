@@ -7,14 +7,16 @@ html,
 	@apply bg-default;
 }
 
-.light {
+.light,
+[data-theme="light"] {
 	--chart-primary: #06b6d4;
 	--chart-total: #c084fc;
 	--chart-used: #6366f1;
 	--chart-warning: #f43f5e;
 }
 
-.dark {
+.dark,
+[data-theme="dark"] {
 	--chart-primary: #22d3ee;
 	--chart-total: #c084fc;
 	--chart-used: #818cf8;

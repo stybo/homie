@@ -1,5 +1,5 @@
-import { useTheme } from "@heroui/react";
 import { getLocalTimeZone, now } from "@internationalized/date";
+import { useTheme } from "next-themes";
 import { useEffect } from "react";
 import { getTimes } from "suncalc";
 
@@ -7,7 +7,7 @@ const LATITUDE = 53.219;
 const LONGITUDE = 6.566;
 const MORNING_START_HOUR = 9;
 
-export function getTimeBasedTheme(): "light" | "dark" {
+export function getTimeBasedTheme(): "dark" | "light" {
 	const current = now(getLocalTimeZone());
 	const date = current.toDate();
 	const { sunrise, sunset } = getTimes(date, LATITUDE, LONGITUDE);
