@@ -34,6 +34,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
+        id: build
         uses: docker/build-push-action@v7
         with:
           context: .
@@ -44,6 +45,13 @@ jobs:
           tags: ghcr.io/stybo/homie:latest
           secrets: |
             HEROUI_AUTH_TOKEN=${{ secrets.HEROUI_AUTH_TOKEN }}
+
+      - name: Publish Deployment Summary
+        if: always()
+        run: |
+          echo "### 🚀 Image Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- **Image Tag:** \`ghcr.io/stybo/homie:latest\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Image Digest:** \`${{ steps.build.outputs.digest }}\`" >> $GITHUB_STEP_SUMMARY
 
   deploy:
     name: Deploy to Dokploy
