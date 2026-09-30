@@ -23,10 +23,10 @@ jobs:
           run-install: true
 
       - name: Check code
-        run: vp check
+        run: vpr check
 
       - name: Test code
-        run: vp test
+        run: vpr test
 
       - name: Build code
-        run: vp build
+        run: vpr build
