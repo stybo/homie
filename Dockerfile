@@ -8,7 +8,7 @@ RUN --mount=type=secret,id=HEROUI_AUTH_TOKEN,env=HEROUI_AUTH_TOKEN,required=fals
 
 # Build. vp reads .node-version and provisions that exact Node.js automatically.
 COPY --chown=vp:vp . .
-RUN vpr build
+RUN vpr -v build
 
 # --- runtime stage: official alpine Node runtime with matching .node-version ---
 FROM node:26-alpine AS runtime
