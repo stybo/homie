@@ -42,7 +42,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
 			<head>
 				<HeadContent />
 			</head>
-			<body className="bg-background text-foreground">
+			<body>
 				<ThemeProvider>
 					<AutoTheme />
 					{children}
