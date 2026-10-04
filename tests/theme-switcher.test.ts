@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vite-plus/test";
-import { getTimeBasedTheme } from "../src/components/theme-switcher.ts";
+import { getTimeBasedTheme } from "@/components/theme-switcher.ts";
 
 describe("theme-switcher", () => {
 	describe("getTimeBasedTheme", () => {

@@ -1,6 +1,6 @@
 import { AreaChart } from "@heroui-pro/react/area-chart";
 import { ChartTooltip } from "@heroui-pro/react/chart-tooltip";
-import type { ProxmoxRrdRawDataPoint } from "../../types";
+import type { ProxmoxRrdRawDataPoint } from "@/types";
 import { formatTime } from "./formatters.ts";
 import type { MetricSeriesConfig } from "./types.ts";
 

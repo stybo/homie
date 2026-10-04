@@ -2,10 +2,10 @@ import type { QueryClient } from "@tanstack/react-query";
 import { createRootRouteWithContext, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
-import { RouteNotFound } from "../components/route-not-found.tsx";
-import { useAutoTheme } from "../components/theme-switcher.ts";
-import { DevtoolsProvider } from "../providers/DevtoolsProvider.tsx";
-import "../styles/globals.css";
+import { RouteNotFound } from "@/components/route-not-found.tsx";
+import { useAutoTheme } from "@/components/theme-switcher.ts";
+import { DevtoolsProvider } from "@/providers/DevtoolsProvider.tsx";
+import "@/styles/globals.css";
 
 interface RouterContext {
 	queryClient: QueryClient;

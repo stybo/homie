@@ -139,6 +139,11 @@ export default defineConfig({
 		},
 	},
 	plugins: [devtools(), tanstackStart(), nitro(), tailwindcss(), react({ compiler: true })],
+	resolve: {
+		alias: {
+			"@": `${import.meta.dirname}/src`,
+		},
+	},
 	run: {
 		tasks: {
 			build: "vp build",

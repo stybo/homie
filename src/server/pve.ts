@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import type { ProxmoxRrdRawDataPoint, ProxmoxRrdResponse, ProxmoxTimeframe } from "../types/index.ts";
+import type { ProxmoxRrdRawDataPoint, ProxmoxRrdResponse, ProxmoxTimeframe } from "@/types/index.ts";
 
 export const PROXMOX_BASE_URL = "https://proxmox.stybo.nl/api2/json/nodes/homelab/rrddata";
 

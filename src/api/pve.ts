@@ -1,7 +1,7 @@
 import { getLocalTimeZone, now } from "@internationalized/date";
 import { queryOptions } from "@tanstack/react-query";
-import { fetchPveStatsServerFn } from "../server/pve.ts";
-import type { ProxmoxRrdRawDataPoint, ProxmoxTimeframe } from "../types/index.ts";
+import { fetchPveStatsServerFn } from "@/server/pve.ts";
+import type { ProxmoxRrdRawDataPoint, ProxmoxTimeframe } from "@/types/index.ts";
 
 export interface FetchPveStatsOptions {
 	signal?: AbortSignal;
