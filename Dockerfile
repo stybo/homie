@@ -11,7 +11,7 @@ COPY --chown=vp:vp . .
 RUN vpr build
 
 # --- runtime stage: official alpine Node runtime with matching .node-version ---
-FROM node:26-alpine AS runtime
+FROM node:26.10.0-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NITRO_PORT=8080
