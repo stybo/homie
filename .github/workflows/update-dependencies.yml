@@ -10,9 +10,6 @@ jobs:
   update-dependencies:
     name: Update Dependencies
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
 
     env:
       HEROUI_AUTH_TOKEN: ${{ secrets.HEROUI_AUTH_TOKEN }}
@@ -20,8 +17,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
 
       - name: Setup Vite+
         uses: voidzero-dev/setup-vp@v1.19.0
@@ -30,7 +25,7 @@ jobs:
           run-install: true
 
       - name: Update dependencies
-        run: pnpm update --latest -r
+        run: vp update --latest
 
       - name: Format and lint code
         run: vp check --fix
