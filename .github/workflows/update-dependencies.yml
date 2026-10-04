@@ -1,0 +1,54 @@
+name: Update Dependencies
+
+on:
+  schedule:
+    # Run every Monday at 04:00 UTC
+    - cron: "0 4 * * 1"
+  workflow_dispatch:
+
+jobs:
+  update-dependencies:
+    name: Update Dependencies
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    env:
+      HEROUI_AUTH_TOKEN: ${{ secrets.HEROUI_AUTH_TOKEN }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup Vite+
+        uses: voidzero-dev/setup-vp@v1.19.0
+        with:
+          cache: true
+          run-install: true
+
+      - name: Update dependencies
+        run: pnpm update --latest -r
+
+      - name: Check and format code
+        run: vp check --fix
+
+      - name: Run tests
+        run: vp test
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore(deps): Bump Deps"
+          title: "chore(deps): Bump Deps"
+          body: |
+            Automated dependency update created by GitHub Actions.
+
+            - Updated dependencies via `pnpm update --latest -r`
+            - Formatted and linted via `vp check --fix`
+            - Unit tests verified via `vp test`
+          branch: chore/dependency-updates
+          delete-branch: true
+          labels: |
+            dependencies
