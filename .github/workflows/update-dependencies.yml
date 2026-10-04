@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          token: ${{ secrets.GH_PAT }}
 
       - name: Setup Vite+
         uses: voidzero-dev/setup-vp@3754dd7dbdb32bd8f6d28b6043de13ad3a75f21f # v1.21.1
@@ -25,7 +27,7 @@ jobs:
           run-install: true
 
       - name: Update dependencies
-        run: vp update --latest
+        run: vp update --latest -- --include-github-actions
 
       - name: Format and lint code
         run: vp check --fix
@@ -36,7 +38,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_PAT }}
           commit-message: "chore(deps): Bump Deps"
           title: "chore(deps): Bump Deps"
           body-path: /tmp/pr-body.md
