@@ -4,10 +4,15 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths-ignore:
-      - ".gitignore"
-      - ".env.example"
-      - ".idea/**"
+    paths:
+      - "src/**"
+      - "public/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - "Dockerfile"
+      - "vite.config.ts"
+      - "tsconfig.json"
 
 permissions: write-all
 
