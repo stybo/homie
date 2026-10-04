@@ -35,6 +35,41 @@ async function getChangelogUrl(pkgName) {
 	return `https://www.npmjs.com/package/${pkgName}`;
 }
 
+function getActionDiffs(baseRef) {
+	const actionDiffs = [];
+	try {
+		const diff = execSync(`git diff ${baseRef} -- .github/workflows/`, { encoding: "utf8" });
+		const actionRegex = /^[+-]\s+uses:\s+([^@\s]+)@([^\n]+)/gm;
+		const actions = new Map();
+		let m;
+		while ((m = actionRegex.exec(diff)) !== null) {
+			const isNew = m[0].startsWith("+");
+			const name = m[1];
+			const ref = m[2].trim();
+			if (!actions.has(name)) actions.set(name, {});
+			if (isNew) actions.get(name).newVer = ref;
+			else actions.get(name).oldVer = ref;
+		}
+
+		for (const [name, info] of actions.entries()) {
+			if (info.newVer && info.oldVer && info.newVer !== info.oldVer) {
+				const shortOld = info.oldVer.includes("#") ? info.oldVer.split("#")[1].trim() : info.oldVer;
+				const shortNew = info.newVer.includes("#") ? info.newVer.split("#")[1].trim() : info.newVer;
+				actionDiffs.push({
+					name,
+					type: "action",
+					newVer: shortNew,
+					oldVer: shortOld,
+					url: `https://github.com/${name}/releases`,
+				});
+			}
+		}
+	} catch {
+		// Ignore git diff error
+	}
+	return actionDiffs;
+}
+
 export async function generateChangelog({ baseRef = "HEAD", outputFile = null } = {}) {
 	let oldPkg = {};
 	try {
@@ -77,7 +112,9 @@ export async function generateChangelog({ baseRef = "HEAD", outputFile = null } 
 		});
 	}
 
-	if (diffs.length === 0) {
+	const actionDiffs = getActionDiffs(baseRef);
+
+	if (diffs.length === 0 && actionDiffs.length === 0) {
 		const emptyBody = "No dependencies updated.\n";
 		if (outputFile) fs.writeFileSync(outputFile, emptyBody);
 		return emptyBody;
@@ -93,6 +130,10 @@ export async function generateChangelog({ baseRef = "HEAD", outputFile = null } 
 		}),
 	);
 
+	const actionRows = actionDiffs.map(
+		(a) => `| \`${a.name}\` | \`github-action\` | \`${a.oldVer}\` | \`${a.newVer}\` | [Release Notes](${a.url}) |`,
+	);
+
 	const markdown = [
 		"Automated dependency update created by GitHub Actions.",
 		"",
@@ -101,6 +142,7 @@ export async function generateChangelog({ baseRef = "HEAD", outputFile = null } 
 		"| Package | Type | Previous | Updated | Changelog |",
 		"| :--- | :--- | :--- | :--- | :--- |",
 		...rows,
+		...actionRows,
 		"",
 		"### ✅ Quality Checks",
 		"- Auto-formatted and linted via `vp check --fix`",
