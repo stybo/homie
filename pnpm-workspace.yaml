@@ -12,6 +12,7 @@ peerDependencyRules:
     - vite
   allowedVersions:
     vite: "*"
+    eslint: "10"
 
 allowBuilds:
   "@heroui-pro/react": true
