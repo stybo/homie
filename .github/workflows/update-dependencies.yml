@@ -6,8 +6,6 @@ on:
     - cron: "0 4 * * 1"
   workflow_dispatch:
 
-permissions: write-all
-
 jobs:
   update-dependencies:
     name: Update Dependencies
@@ -18,10 +16,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Setup Vite+
-        uses: voidzero-dev/setup-vp@v1.19.0
+        uses: voidzero-dev/setup-vp@3754dd7dbdb32bd8f6d28b6043de13ad3a75f21f # v1.21.1
         with:
           cache: true
           run-install: true
@@ -36,7 +34,7 @@ jobs:
         run: node tools/generate-dependency-changelog.mjs --base HEAD --output /tmp/pr-body.md
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "chore(deps): Bump Deps"
