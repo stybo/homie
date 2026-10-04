@@ -27,7 +27,7 @@ jobs:
           run-install: true
 
       - name: Update dependencies
-        run: vp update --latest -- --include-github-actions
+        run: vp update --latest
 
       - name: Format and lint code
         run: vp check --fix
