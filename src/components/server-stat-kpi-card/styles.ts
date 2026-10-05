@@ -22,7 +22,7 @@ export const kpiChartStyles = tv({
 		swatch: "size-2 shrink-0 rounded-full",
 		time: "text-[10px] text-zinc-500 dark:text-zinc-400",
 		tooltip:
-			"pointer-events-none flex min-w-35 flex-col gap-1.5 rounded-lg border border-separator bg-overlay px-3 py-2 tabular-nums shadow-overlay select-none",
+			"pointer-events-none flex min-w-35 flex-col gap-1.5 rounded-lg border border-separator/60 bg-transparent px-3 py-2 tabular-nums select-none",
 		value: "text-xs font-semibold text-foreground",
 	},
 });
