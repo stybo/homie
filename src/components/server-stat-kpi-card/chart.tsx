@@ -102,6 +102,7 @@ export function Chart({ title, data, series, formatValue }: ChartProps) {
 					id: s.dataKey,
 					color: s.color,
 					curve: d3Curve(curveMonotoneX),
+					stroke: s.color,
 					strokeWidth: s.strokeWidth ?? 1.5,
 					x: (d: ProxmoxRrdRawDataPoint) => d.time,
 					y: (d: ProxmoxRrdRawDataPoint) => d[s.dataKey],
@@ -114,7 +115,6 @@ export function Chart({ title, data, series, formatValue }: ChartProps) {
 		},
 		tooltip: {
 			anchor: { x: "point", y: "plot-top" },
-			motion: false,
 			offset: 14,
 			placement: "top",
 			portal,
