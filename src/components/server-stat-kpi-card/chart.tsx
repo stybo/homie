@@ -33,7 +33,7 @@ const chartSlots = kpiChartStyles();
 
 function ChartTooltip({ title, datum, points, series, formatValue }: ChartTooltipProps) {
 	return (
-		<div className={chartSlots.tooltip()}>
+		<div className="pointer-events-none flex min-w-35 flex-col gap-1.5 rounded-lg border border-separator/60 bg-transparent px-3 py-2 tabular-nums select-none">
 			<span className={chartSlots.time()}>{formatTime(datum.time)}</span>
 			{series.map((s) => {
 				const point = points.find((p) => p.markId === s.dataKey);
