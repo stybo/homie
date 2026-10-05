@@ -55,8 +55,6 @@ jobs:
           push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          secrets: |
-            HEROUI_AUTH_TOKEN=${{ secrets.HEROUI_AUTH_TOKEN }}
           tags: |
             ghcr.io/stybo/homie:latest
             ghcr.io/stybo/homie:${{ steps.semver.outputs.TAG }}
