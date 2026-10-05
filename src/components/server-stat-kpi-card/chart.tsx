@@ -115,6 +115,7 @@ export function Chart({ title, data, series, formatValue }: ChartProps) {
 		},
 		tooltip: {
 			anchor: { x: "point", y: "plot-top" },
+			className: "!bg-transparent !border-none !p-0 !shadow-none",
 			offset: 14,
 			placement: "top",
 			portal,
