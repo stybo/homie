@@ -3,9 +3,9 @@ import { useTheme } from "next-themes";
 import { useEffect } from "react";
 import { getTimes } from "suncalc";
 
-export const LATITUDE = Number(process.env.LATITUDE);
-export const LONGITUDE = Number(process.env.LONGITUDE);
-export const MORNING_START_HOUR = Number(process.env.MORNING_START_HOUR);
+export const LATITUDE = Number(process.env.LATITUDE) || 53.219;
+export const LONGITUDE = Number(process.env.LONGITUDE) || 6.566;
+export const MORNING_START_HOUR = Number(process.env.MORNING_START_HOUR) || 9;
 
 export function getTimeBasedTheme(): "dark" | "light" {
 	const current = now(getLocalTimeZone());

@@ -5,6 +5,8 @@ import react from "@vitejs/plugin-react";
 import { nitro } from "nitro/vite";
 import { defineConfig } from "vite-plus";
 
+const isTest = Boolean(process.env.VITEST);
+
 export default defineConfig({
 	build: {
 		rolldownOptions: {
@@ -138,28 +140,30 @@ export default defineConfig({
 			},
 		},
 	},
-	plugins: [
-		devtools(),
-		tanstackStart({
-			router: {
-				codeSplittingOptions: {
-					defaultBehavior: [["component", "errorComponent", "notFoundComponent"]],
-				},
-			},
-		}),
-		nitro({
-			hooks: {
-				"rollup:before"(_nitro, config) {
-					const groups = (config.output as { codeSplitting?: { groups?: Array<{ debugName?: string }> } })?.codeSplitting?.groups;
-					for (const group of groups ?? []) {
-						group.debugName ??= "node_modules";
-					}
-				},
-			},
-		}),
-		tailwindcss(),
-		react({ compiler: true }),
-	],
+	plugins: isTest
+		? [tailwindcss(), react({ compiler: true })]
+		: [
+				devtools(),
+				tanstackStart({
+					router: {
+						codeSplittingOptions: {
+							defaultBehavior: [["component", "errorComponent", "notFoundComponent"]],
+						},
+					},
+				}),
+				nitro({
+					hooks: {
+						"rollup:before"(_nitro, config) {
+							const groups = (config.output as { codeSplitting?: { groups?: Array<{ debugName?: string }> } })?.codeSplitting?.groups;
+							for (const group of groups ?? []) {
+								group.debugName ??= "node_modules";
+							}
+						},
+					},
+				}),
+				tailwindcss(),
+				react({ compiler: true }),
+			],
 	resolve: {
 		alias: {
 			"@": `${import.meta.dirname}/src`,
