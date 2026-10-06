@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { getTimeBasedTimeframe } from "@/api/pve.ts";
-import { fetchNodeData } from "@/server/pve.ts";
+import { fetchNodeData, parseTimeframe } from "@/server/pve.ts";
 
 describe("api/pve", () => {
 	const originalToken = process.env.PROXMOX_TOKEN;
@@ -34,8 +34,19 @@ describe("api/pve", () => {
 		});
 	});
 
+	describe("parseTimeframe", () => {
+		it("validates allowed timeframes", () => {
+			expect(parseTimeframe("day")).toBe("day");
+			expect(parseTimeframe("week")).toBe("week");
+			expect(parseTimeframe("month")).toBe("month");
+			expect(parseTimeframe("year")).toBe("year");
+			expect(parseTimeframe("invalid")).toBe("hour");
+			expect(parseTimeframe(null)).toBe("hour");
+		});
+	});
+
 	describe("fetchNodeData", () => {
-		it("fetches and parses data successfully with full endpoint url", async () => {
+		it("fetches and parses data successfully", async () => {
 			const mockData = [{ cpu: 0.1, time: 1700000000 }];
 			const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
 				new Response(JSON.stringify({ data: mockData }), {
@@ -53,40 +64,14 @@ describe("api/pve", () => {
 			});
 		});
 
-		it("automatically appends node endpoint when only base host is configured", async () => {
-			process.env.PROXMOX_BASE_URL = "https://proxmox.stybo.nl";
-			const mockData = [{ cpu: 0.2, time: 1700000000 }];
-			const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
-				new Response(JSON.stringify({ data: mockData }), {
-					headers: { "Content-Type": "application/json" },
-					status: 200,
-				}),
-			);
-
-			const result = await fetchNodeData("hour");
-			expect(result).toEqual(mockData);
-			expect(fetchSpy).toHaveBeenCalledWith("https://proxmox.stybo.nl/api2/json/nodes/homelab/rrddata?timeframe=hour", {
-				headers: {
-					Authorization: "PVEAPIToken=test",
-				},
-			});
+		it("throws an error when PROXMOX_TOKEN is missing", async () => {
+			delete process.env.PROXMOX_TOKEN;
+			await expect(fetchNodeData("hour")).rejects.toThrow("PROXMOX_TOKEN is not configured");
 		});
 
-		it("defaults to hour timeframe when omitted", async () => {
-			const mockData = [{ cpu: 0.1, time: 1700000000 }];
-			const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
-				new Response(JSON.stringify({ data: mockData }), {
-					headers: { "Content-Type": "application/json" },
-					status: 200,
-				}),
-			);
-
-			await fetchNodeData();
-			expect(fetchSpy).toHaveBeenCalledWith("https://example.com/api2/json/nodes/homelab/rrddata?timeframe=hour", {
-				headers: {
-					Authorization: "PVEAPIToken=test",
-				},
-			});
+		it("throws an error when PROXMOX_BASE_URL is missing", async () => {
+			delete process.env.PROXMOX_BASE_URL;
+			await expect(fetchNodeData("hour")).rejects.toThrow("PROXMOX_BASE_URL is not configured");
 		});
 
 		it("throws an error when HTTP status is not ok", async () => {
