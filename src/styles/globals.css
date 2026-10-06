@@ -21,14 +21,3 @@ html,
 	--chart-used: #818cf8;
 	--chart-warning: #fb7185;
 }
-
-.ts-chart-tooltip,
-.ts-chart-tooltip:popover-open,
-.ts-chart-tooltip[popover] {
-	background: transparent !important;
-	border: none !important;
-}
-
-.ts-chart-tooltip::backdrop {
-	display: none !important;
-}
