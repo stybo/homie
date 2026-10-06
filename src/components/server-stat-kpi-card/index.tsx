@@ -1,38 +1,36 @@
-import { KPI } from "@heroui-pro/react/kpi";
+import { Card } from "@heroui/react";
 import type { ReactNode } from "react";
 import { Chart } from "./chart.tsx";
 import { METRIC_CONFIGS } from "./configs.tsx";
 import { ServerStatKpiCardContext, useServerStatKpiCardContext } from "./context.ts";
 import { formatCapacitySubvalue } from "./formatters.ts";
+import { kpiCardStyles } from "./styles.ts";
 import type { ServerStatKpiCardContextValue, ServerStatKpiCardProps } from "./types.ts";
 
+const cardSlots = kpiCardStyles();
+
 export function ServerStatKpiCardHeader({ children }: { children: ReactNode }) {
-	return <KPI.Header>{children}</KPI.Header>;
+	return <Card.Header className={cardSlots.header()}>{children}</Card.Header>;
 }
 
 export function ServerStatKpiCardIcon() {
 	const { config } = useServerStatKpiCardContext();
-	return <KPI.Icon className="bg-zinc-200/80 text-zinc-700 dark:bg-emerald-500/15 dark:text-emerald-400">{config.icon}</KPI.Icon>;
+	return <div className={cardSlots.icon()}>{config.icon}</div>;
 }
 
 export function ServerStatKpiCardTitle() {
 	const { config } = useServerStatKpiCardContext();
-	return <KPI.Title>{config.title}</KPI.Title>;
+	return <Card.Title className={cardSlots.title()}>{config.title}</Card.Title>;
 }
 
 export function ServerStatKpiCardValue() {
-	const { formattedValue, rawValue } = useServerStatKpiCardContext();
-
-	return (
-		<KPI.Value className="text-2xl font-bold" value={rawValue}>
-			{() => formattedValue}
-		</KPI.Value>
-	);
+	const { formattedValue } = useServerStatKpiCardContext();
+	return <div className={cardSlots.value()}>{formattedValue}</div>;
 }
 
 export function ServerStatKpiCardFooter() {
 	const { subvalue } = useServerStatKpiCardContext();
-	return <KPI.Footer className="text-xs text-zinc-500 dark:text-zinc-400">{subvalue}</KPI.Footer>;
+	return <div className={cardSlots.footer()}>{subvalue}</div>;
 }
 
 export function ServerStatKpiCardChart() {
@@ -41,7 +39,7 @@ export function ServerStatKpiCardChart() {
 }
 
 export function ServerStatKpiCardContent({ children }: { children: ReactNode }) {
-	return <KPI.Content className="flex flex-col gap-2">{children}</KPI.Content>;
+	return <Card.Content className={cardSlots.content()}>{children}</Card.Content>;
 }
 
 export function ServerStatKpiCard({ data, metric }: ServerStatKpiCardProps) {
@@ -65,19 +63,19 @@ export function ServerStatKpiCard({ data, metric }: ServerStatKpiCardProps) {
 
 	return (
 		<ServerStatKpiCardContext value={contextValue}>
-			<KPI>
+			<Card className={cardSlots.base()}>
 				<ServerStatKpiCardHeader>
 					<ServerStatKpiCardIcon />
 					<ServerStatKpiCardTitle />
 				</ServerStatKpiCardHeader>
 				<ServerStatKpiCardContent>
-					<div className="flex w-full items-baseline justify-between">
+					<div className={cardSlots.valueRow()}>
 						<ServerStatKpiCardValue />
 						<ServerStatKpiCardFooter />
 					</div>
 					<ServerStatKpiCardChart />
 				</ServerStatKpiCardContent>
-			</KPI>
+			</Card>
 		</ServerStatKpiCardContext>
 	);
 }

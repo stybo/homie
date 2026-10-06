@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Install dependencies first so this layer is cached across source changes.
 COPY --chown=vp:vp package.json pnpm-lock.yaml pnpm-workspace.yaml .node-version* ./
-RUN --mount=type=secret,id=HEROUI_AUTH_TOKEN,env=HEROUI_AUTH_TOKEN,required=false vp install --frozen-lockfile
+RUN vp install --frozen-lockfile
 
 # Build. vp reads .node-version and provisions that exact Node.js automatically.
 COPY --chown=vp:vp . .
