@@ -9,3 +9,4 @@ services:
     environment:
       - NODE_ENV=production
       - PROXMOX_TOKEN=${PROXMOX_TOKEN}
+      - PROXMOX_BASE_URL=${PROXMOX_BASE_URL}

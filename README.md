@@ -32,10 +32,11 @@ A clean, lightweight Proxmox VE homelab monitoring dashboard.
    cp .env.example .env
    ```
 
-   Add your Proxmox API token in `.env`:
+   Add your Proxmox API token and base URL in `.env`:
 
    ```env
    PROXMOX_TOKEN="PVEAPIToken=user@pam!tokenid=secret"
+   PROXMOX_BASE_URL="https://example.com/api2/json/nodes/homelab/rrddata"
    ```
 
 3. **Start the development server**:
@@ -46,7 +47,34 @@ A clean, lightweight Proxmox VE homelab monitoring dashboard.
 
 ## Docker Deployment
 
-To build and run with Docker Compose:
+### Using Pre-built Image
+
+Pull the image from GitHub Container Registry:
+
+```bash
+docker pull ghcr.io/stybo/homie:latest
+```
+
+Run directly with Docker:
+
+```bash
+docker run -d \
+  --name homie \
+  -p 8080:8080 \
+  -e PROXMOX_TOKEN="PVEAPIToken=user@pam!tokenid=secret" \
+  -e PROXMOX_BASE_URL="https://example.com/api2/json/nodes/homelab/rrddata" \
+  ghcr.io/stybo/homie:latest
+```
+
+Or using Docker Compose:
+
+```bash
+docker compose -f compose.prod.yaml up -d
+```
+
+### Building Locally
+
+To build and run locally with Docker Compose:
 
 ```bash
 docker compose up -d --build

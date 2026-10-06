@@ -1,16 +1,29 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { getTimeBasedTimeframe } from "@/api/pve.ts";
-import { fetchNodeData, parseTimeframe, PROXMOX_BASE_URL } from "@/server/pve.ts";
+import { fetchNodeData, parseTimeframe } from "@/server/pve.ts";
 
 describe("api/pve", () => {
 	const originalToken = process.env.PROXMOX_TOKEN;
+	const originalBaseUrl = process.env.PROXMOX_BASE_URL;
 
 	beforeEach(() => {
 		process.env.PROXMOX_TOKEN = "PVEAPIToken=test";
+		process.env.PROXMOX_BASE_URL = "https://example.com/api2/json/nodes/homelab/rrddata";
 	});
 
 	afterEach(() => {
-		process.env.PROXMOX_TOKEN = originalToken;
+		if (originalToken !== undefined) {
+			process.env.PROXMOX_TOKEN = originalToken;
+		} else {
+			delete process.env.PROXMOX_TOKEN;
+		}
+
+		if (originalBaseUrl !== undefined) {
+			process.env.PROXMOX_BASE_URL = originalBaseUrl;
+		} else {
+			delete process.env.PROXMOX_BASE_URL;
+		}
+
 		vi.restoreAllMocks();
 	});
 
@@ -44,7 +57,7 @@ describe("api/pve", () => {
 
 			const result = await fetchNodeData("week");
 			expect(result).toEqual(mockData);
-			expect(fetchSpy).toHaveBeenCalledWith(`${PROXMOX_BASE_URL}?timeframe=week`, {
+			expect(fetchSpy).toHaveBeenCalledWith("https://example.com/api2/json/nodes/homelab/rrddata?timeframe=week", {
 				headers: {
 					Authorization: "PVEAPIToken=test",
 				},
@@ -54,6 +67,11 @@ describe("api/pve", () => {
 		it("throws an error when PROXMOX_TOKEN is missing", async () => {
 			delete process.env.PROXMOX_TOKEN;
 			await expect(fetchNodeData("hour")).rejects.toThrow("PROXMOX_TOKEN is not configured");
+		});
+
+		it("throws an error when PROXMOX_BASE_URL is missing", async () => {
+			delete process.env.PROXMOX_BASE_URL;
+			await expect(fetchNodeData("hour")).rejects.toThrow("PROXMOX_BASE_URL is not configured");
 		});
 
 		it("throws an error when HTTP status is not ok", async () => {

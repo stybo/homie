@@ -16,6 +16,10 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NITRO_PORT=8080
 
+LABEL org.opencontainers.image.title="Homie"
+LABEL org.opencontainers.image.description="A clean, lightweight Proxmox VE homelab monitoring dashboard."
+LABEL org.opencontainers.image.source="https://github.com/stybo/homie"
+
 # Standalone Nitro server output (fully self-contained, no node_modules required)
 COPY --from=build /app/.output ./.output
 

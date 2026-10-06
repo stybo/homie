@@ -1,8 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import type { ProxmoxRrdRawDataPoint, ProxmoxRrdResponse, ProxmoxTimeframe } from "@/types/index.ts";
 
-export const PROXMOX_BASE_URL = "https://proxmox.stybo.nl/api2/json/nodes/homelab/rrddata";
-
 export function parseTimeframe(value?: string | null): ProxmoxTimeframe {
 	if (value === "day" || value === "week" || value === "month" || value === "year") {
 		return value;
@@ -16,7 +14,12 @@ export async function fetchNodeData(timeframe: ProxmoxTimeframe): Promise<Proxmo
 		throw new Error("PROXMOX_TOKEN is not configured");
 	}
 
-	const response = await fetch(`${PROXMOX_BASE_URL}?timeframe=${timeframe}`, {
+	const baseUrl = process.env.PROXMOX_BASE_URL;
+	if (!baseUrl) {
+		throw new Error("PROXMOX_BASE_URL is not configured");
+	}
+
+	const response = await fetch(`${baseUrl}?timeframe=${timeframe}`, {
 		headers: {
 			Authorization: token,
 		},
