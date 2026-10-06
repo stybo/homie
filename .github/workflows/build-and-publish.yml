@@ -55,6 +55,8 @@ jobs:
           push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          platforms: linux/amd64
+          provenance: false
           tags: |
             ghcr.io/stybo/homie:latest
             ghcr.io/stybo/homie:${{ steps.semver.outputs.TAG }}
