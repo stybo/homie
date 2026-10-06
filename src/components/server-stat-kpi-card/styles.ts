@@ -23,6 +23,8 @@ export const kpiChartStyles = tv({
 		time: "text-[10px] text-zinc-500 dark:text-zinc-400",
 		tooltip:
 			"pointer-events-none flex min-w-35 flex-col gap-1.5 rounded-lg border border-separator bg-overlay px-3 py-2 tabular-nums shadow-overlay select-none",
+		tooltipHost:
+			"pointer-events-none z-50! border-none! bg-transparent! p-0! shadow-none! select-none backdrop:hidden [&:popover-open]:border-none! [&:popover-open]:bg-transparent! [&[popover]]:border-none! [&[popover]]:bg-transparent!",
 		value: "text-xs font-semibold text-foreground",
 	},
 });

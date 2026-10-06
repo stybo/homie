@@ -70,13 +70,9 @@ export function Chart({ title, data, series, formatValue }: ChartProps) {
 			radius: 3.5,
 			strokeWidth: 2,
 		},
-		guides: false,
-		keyboard: false,
 		margin: { bottom: 6, left: 0, right: 0, top: 6 },
 		marks: [
 			crosshair({
-				marker: false,
-				motion: false,
 				x: {
 					stroke: "var(--muted)",
 					strokeDasharray: "4 3",
@@ -92,6 +88,8 @@ export function Chart({ title, data, series, formatValue }: ChartProps) {
 						curve: d3Curve(curveMonotoneX),
 						fill: s.color,
 						fillOpacity: s.fillOpacity ?? 0.2,
+						stroke: "none",
+						strokeWidth: 0,
 						x: (d: ProxmoxRrdRawDataPoint) => d.time,
 						y: (d: ProxmoxRrdRawDataPoint) => d[s.dataKey],
 					}),
@@ -115,6 +113,7 @@ export function Chart({ title, data, series, formatValue }: ChartProps) {
 		},
 		tooltip: {
 			anchor: { x: "point", y: "plot-top" },
+			className: chartSlots.tooltipHost(),
 			offset: 14,
 			placement: "top",
 			portal,
