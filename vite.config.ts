@@ -138,7 +138,28 @@ export default defineConfig({
 			},
 		},
 	},
-	plugins: [devtools(), tanstackStart(), nitro(), tailwindcss(), react({ compiler: true })],
+	plugins: [
+		devtools(),
+		tanstackStart({
+			router: {
+				codeSplittingOptions: {
+					defaultBehavior: [["component", "errorComponent", "notFoundComponent"]],
+				},
+			},
+		}),
+		nitro({
+			hooks: {
+				"rollup:before"(_nitro, config) {
+					const groups = (config.output as { codeSplitting?: { groups?: Array<{ debugName?: string }> } })?.codeSplitting?.groups;
+					for (const group of groups ?? []) {
+						group.debugName ??= "node_modules";
+					}
+				},
+			},
+		}),
+		tailwindcss(),
+		react({ compiler: true }),
+	],
 	resolve: {
 		alias: {
 			"@": `${import.meta.dirname}/src`,
