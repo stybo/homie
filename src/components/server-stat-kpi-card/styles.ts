@@ -17,7 +17,7 @@ export const kpiChartStyles = tv({
 	slots: {
 		label: "flex-1 text-xs text-muted",
 		container:
-			"h-[60px] w-full touch-pan-y select-none [&_svg]:mask-[linear-gradient(to_right,transparent_0%,black_5%,black_95%,transparent_100%)]",
+			"h-[60px] w-full touch-pan-y select-none [&_svg]:mask-[linear-gradient(to_right,transparent_0%,black_5%,black_95%,transparent_100%)] [&_svg]:outline-none",
 		item: "flex items-center gap-2",
 		swatch: "size-2 shrink-0 rounded-full",
 		time: "text-[10px] text-zinc-500 dark:text-zinc-400",
