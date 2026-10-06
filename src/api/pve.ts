@@ -13,12 +13,12 @@ export function getTimeBasedTimeframe(): "hour" | "day" {
 	return Math.floor(minute / 2) % 2 === 0 ? "hour" : "day";
 }
 
-export async function fetchPveStats({ timeframe = "hour" }: FetchPveStatsOptions = {}): Promise<ProxmoxRrdRawDataPoint[]> {
+export async function fetchPveStats({ timeframe = getTimeBasedTimeframe() }: FetchPveStatsOptions = {}): Promise<ProxmoxRrdRawDataPoint[]> {
 	return fetchPveStatsServerFn({ data: { timeframe } });
 }
 
 export const pveDataQueryOptions = queryOptions({
 	queryKey: ["pve-data"],
-	queryFn: () => fetchPveStats({ timeframe: getTimeBasedTimeframe() }),
+	queryFn: () => fetchPveStats(),
 	refetchInterval: 60_000,
 });

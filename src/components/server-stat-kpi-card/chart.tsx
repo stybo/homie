@@ -70,6 +70,7 @@ export function Chart({ title, data, series, formatValue }: ChartProps) {
 			radius: 3.5,
 			strokeWidth: 2,
 		},
+		guides: false,
 		margin: { bottom: 6, left: 0, right: 0, top: 6 },
 		marks: [
 			crosshair({

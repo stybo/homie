@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
-import { getTimeBasedTimeframe } from "../src/api/pve.ts";
-import { fetchNodeData, parseTimeframe, PROXMOX_BASE_URL } from "../src/server/pve.ts";
+import { getTimeBasedTimeframe } from "@/api/pve.ts";
+import { fetchNodeData, parseTimeframe, PROXMOX_BASE_URL } from "@/server/pve.ts";
 
 describe("api/pve", () => {
 	const originalToken = process.env.PROXMOX_TOKEN;
