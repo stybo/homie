@@ -38,11 +38,17 @@ A clean, lightweight Proxmox VE homelab monitoring dashboard.
    cp .env.example .env
    ```
 
-   Add your Proxmox API token and base URL in `.env`:
+   Add your Proxmox API token, base host, and location in `.env`:
 
    ```env
+   PROXMOX_BASE_URL="https://example.com"
    PROXMOX_TOKEN="PVEAPIToken=user@pam!tokenid=secret"
-   PROXMOX_BASE_URL="https://example.com/api2/json/nodes/homelab/rrddata"
+   PROXMOX_NODE="homelab"
+
+   # Coordinates & morning hour for auto theme switching
+   LATITUDE="53.219"
+   LONGITUDE="6.566"
+   MORNING_START_HOUR="9"
    ```
 
 3. **Start the development server**:
@@ -67,8 +73,12 @@ Run directly with Docker:
 docker run -d \
   --name homie \
   -p 8080:8080 \
+  -e PROXMOX_BASE_URL="https://example.com" \
   -e PROXMOX_TOKEN="PVEAPIToken=user@pam!tokenid=secret" \
-  -e PROXMOX_BASE_URL="https://example.com/api2/json/nodes/homelab/rrddata" \
+  -e PROXMOX_NODE="homelab" \
+  -e LATITUDE="53.219" \
+  -e LONGITUDE="6.566" \
+  -e MORNING_START_HOUR="9" \
   ghcr.io/stybo/homie:latest
 ```
 
