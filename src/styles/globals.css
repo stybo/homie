@@ -23,7 +23,8 @@ html,
 }
 
 .ts-chart-tooltip,
-.ts-chart-tooltip:popover-open {
+.ts-chart-tooltip:popover-open,
+.ts-chart-tooltip[popover] {
 	--ts-chart-tooltip-background: transparent;
 	--ts-chart-tooltip-border: none;
 	--ts-chart-tooltip-padding: 0;
