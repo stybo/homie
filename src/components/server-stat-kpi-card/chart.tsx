@@ -88,8 +88,6 @@ export function Chart({ title, data, series, formatValue }: ChartProps) {
 						curve: d3Curve(curveMonotoneX),
 						fill: s.color,
 						fillOpacity: s.fillOpacity ?? 0.2,
-						stroke: "none",
-						strokeWidth: 0,
 						x: (d: ProxmoxRrdRawDataPoint) => d.time,
 						y: (d: ProxmoxRrdRawDataPoint) => d[s.dataKey],
 					}),
