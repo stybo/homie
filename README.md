@@ -2,11 +2,17 @@
 
 A clean, lightweight Proxmox VE homelab monitoring dashboard.
 
-![Homie Dashboard](./assets/dashboard.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/homie-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/homie-light.png">
+  <img alt="Homie Dashboard" src="assets/homie-dark.png">
+</picture>
 
 ## Features
 
 - **Live Node Metrics** – Real-time sparkline KPI cards for CPU & I/O wait, load average, network I/O, memory, swap, IO pressure, and root storage.
+- **Solar-Aware Auto Theme** – Automatically transitions between light and dark modes based on astronomical sunrise and sunset calculation ([SunCalc](https://github.com/mourner/suncalc)), staying in light mode during daytime (after 09:00) and dark mode during evenings and nights.
+- **Dynamic Timeframe Cycling** – Automatically alternates between **1-hour** (fine-grained live telemetry) and **24-hour** (daily trend overview) Proxmox RRD metrics every 2 minutes, with a 60-second background refetch interval for hands-free monitoring.
 - **Modern Full-Stack** – Built with React 19, [TanStack Start](https://tanstack.com/start), [TanStack Router](https://tanstack.com/router), [TanStack Charts](https://tanstack.com/charts), [HeroUI](https://heroui.com), and Tailwind CSS v4.
 - **Fast Unified Toolchain** – Development, linting, testing, and bundling powered by [Vite+](https://github.com/voidzero-dev/vite-plus) (`vp`).
 - **Production-Ready** – Self-contained standalone [Nitro](https://nitro.build) server output with Docker support.
