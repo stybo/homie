@@ -1,60 +1,65 @@
 # Homie
 
-![Homelab Dashboard Banner](https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80)
+A clean, lightweight Proxmox VE homelab monitoring dashboard.
 
-A modern homelab monitoring dashboard built on a [Vite+](https://github.com/voidzero-dev/vite-plus) monorepo.
+![Homie Dashboard](./assets/dashboard.png)
 
-## Structure
+## Features
 
-```text
-├── apps/
-│   ├── frontend/    # React 19, HeroUI, TanStack Router & Query, Tailwind CSS v4
-│   └── backend/     # Express API proxying Proxmox VE RRD metrics
-├── packages/
-│   └── types/       # Shared TypeScript schemas & Proxmox types (@homie/types)
-└── tools/           # Oxlint anti-slop rules & dev tooling
-```
+- **Live Node Metrics** – Real-time sparkline KPI cards for CPU & I/O wait, load average, network I/O, memory, swap, IO pressure, and root storage.
+- **Modern Full-Stack** – Built with React 19, [TanStack Start](https://tanstack.com/start), [TanStack Router](https://tanstack.com/router), [TanStack Charts](https://tanstack.com/charts), [HeroUI](https://heroui.com), and Tailwind CSS v4.
+- **Fast Unified Toolchain** – Development, linting, testing, and bundling powered by [Vite+](https://github.com/voidzero-dev/vite-plus) (`vp`).
+- **Production-Ready** – Self-contained standalone [Nitro](https://nitro.build) server output with Docker support.
 
-## Quick Start
+## Getting Started
 
 ### Prerequisites
 
-- [pnpm](https://pnpm.io/) `v12+`
+- [pnpm](https://pnpm.io/) (`v12+`)
 - [Vite+](https://github.com/voidzero-dev/vite-plus) CLI (`vp`)
 
 ### Development
 
-```bash
-# Install dependencies
-pnpm install
+1. **Install dependencies**:
 
-# Start all applications in parallel
-vp run dev
-```
+   ```bash
+   pnpm install
+   ```
 
-### Quality & Build
+2. **Configure environment variables**:
 
-```bash
-# Typecheck, lint & format
-vp check --fix
+   ```bash
+   cp .env.example .env
+   ```
 
-# Build all apps & packages
-vp run -r build
-```
+   Add your Proxmox API token in `.env`:
+
+   ```env
+   PROXMOX_TOKEN="PVEAPIToken=user@pam!tokenid=secret"
+   ```
+
+3. **Start the development server**:
+   ```bash
+   vp dev
+   ```
+   Open [http://localhost:8080](http://localhost:8080) in your browser.
 
 ## Docker Deployment
 
-Configure environment variables in `apps/backend/.env`:
-
-```env
-PROXMOX_TOKEN=PVEAPIToken=user@realm!tokenid=uuid
-```
-
-Run with Docker Compose:
+To build and run with Docker Compose:
 
 ```bash
 docker compose up -d --build
 ```
 
-- **Frontend**: `http://localhost:8080`
-- **Backend API**: `http://localhost:10000/api/health`
+The app will be available at `http://localhost:8080`.
+
+## Commands
+
+| Command          | Description                                     |
+| :--------------- | :---------------------------------------------- |
+| `vp dev`         | Start development server                        |
+| `vp check`       | Run linter, typecheck, and formatting checks    |
+| `vp check --fix` | Auto-fix formatting and linting errors          |
+| `vp test`        | Run Vitest test suite                           |
+| `vp build`       | Build standalone production server (`.output/`) |
