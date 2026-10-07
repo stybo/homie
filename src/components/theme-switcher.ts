@@ -5,7 +5,7 @@ import { getTimes } from "suncalc";
 
 export const LATITUDE = Number(process.env.LATITUDE);
 export const LONGITUDE = Number(process.env.LONGITUDE);
-export const MORNING_START_HOUR = Number(process.env.MORNING_START_HOUR);
+export const MORNING_START_HOUR = process.env.MORNING_START_HOUR?.trim() ? Number(process.env.MORNING_START_HOUR?.trim()) : undefined;
 
 export function getTimeBasedTheme(): "dark" | "light" {
 	const current = now(getLocalTimeZone());
@@ -13,7 +13,7 @@ export function getTimeBasedTheme(): "dark" | "light" {
 	const { sunrise, sunset } = getTimes(date, LATITUDE, LONGITUDE);
 
 	const isAfterSunrise = Boolean(sunrise && date >= sunrise);
-	const isAfterMorningHour = current.hour >= MORNING_START_HOUR;
+	const isAfterMorningHour = MORNING_START_HOUR === undefined || current.hour >= MORNING_START_HOUR;
 	const isBeforeSunset = Boolean(sunset && date < sunset);
 
 	const isDaytime = isAfterSunrise && isAfterMorningHour && isBeforeSunset;
