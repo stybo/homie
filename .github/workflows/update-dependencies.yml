@@ -24,10 +24,10 @@ jobs:
           run-install: true
 
       - name: Update dependencies
-        run: vp update --latest
+        run: pnpm update --latest --include-github-actions
 
-      - name: Format and lint code
-        run: vp check --fix
+      - name: Check code
+        run: vp check
 
       - name: Generate Changelog
         run: node tools/generate-dependency-changelog.mjs --base HEAD --output /tmp/pr-body.md
