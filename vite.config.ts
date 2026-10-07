@@ -1,4 +1,3 @@
-import { existsSync } from "node:fs";
 import tailwindcss from "@tailwindcss/vite";
 import { devtools } from "@tanstack/devtools-vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
@@ -173,7 +172,6 @@ export default defineConfig({
 			dev: "vp dev",
 			preview: "open http://localhost:8080 & NITRO_PORT=8080 node --env-file=.env .output/server/index.mjs",
 			start: "NITRO_PORT=8080 node --env-file=.env .output/server/index.mjs",
-			test: "vp test",
 		},
 	},
 	server: {
@@ -183,6 +181,6 @@ export default defineConfig({
 		noExternal: ["@gravity-ui/icons"],
 	},
 	staged: {
-		"*": "vp check --fix && vp test",
+		"*": "vp check --fix",
 	},
 });

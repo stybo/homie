@@ -103,5 +103,4 @@ The app will be available at `http://localhost:8080`.
 | `vp dev`         | Start development server                        |
 | `vp check`       | Run linter, typecheck, and formatting checks    |
 | `vp check --fix` | Auto-fix formatting and linting errors          |
-| `vp test`        | Run Vitest test suite                           |
 | `vp build`       | Build standalone production server (`.output/`) |

@@ -146,7 +146,6 @@ export async function generateChangelog({ baseRef = "HEAD", outputFile = null } 
 		"",
 		"### ✅ Quality Checks",
 		"- Auto-formatted and linted via `vp check --fix`",
-		"- Verified tests with `vp test`",
 		"- Verified build with `vp build`",
 	].join("\n");
 
