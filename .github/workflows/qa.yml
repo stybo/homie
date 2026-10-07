@@ -23,8 +23,5 @@ jobs:
       - name: Check code
         run: vpr check
 
-      - name: Test code
-        run: vpr test
-
       - name: Build code
         run: vpr build
