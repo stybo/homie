@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { RouteNotFound } from "@/components/route-not-found.tsx";
 import { useAutoTheme } from "@/components/theme-switcher.ts";
 import { DevtoolsProvider } from "@/providers/DevtoolsProvider.tsx";
+import { fetchThemeConfigServerFn } from "@/server/theme.ts";
 import "@/styles/globals.css";
 
 interface RouterContext {
@@ -12,6 +13,7 @@ interface RouterContext {
 }
 
 export const Route = createRootRouteWithContext<RouterContext>()({
+	loader: () => fetchThemeConfigServerFn(),
 	component: RootComponent,
 	notFoundComponent: RouteNotFound,
 	head: () => ({
@@ -24,7 +26,8 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 });
 
 function AutoTheme() {
-	useAutoTheme();
+	const config = Route.useLoaderData();
+	useAutoTheme(config);
 	return null;
 }
 
