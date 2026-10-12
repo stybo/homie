@@ -2,9 +2,6 @@ minimumReleaseAge: 0
 
 catalogMode: manual
 
-update:
-  githubActions: true
-
 catalog:
   vite: npm:@voidzero-dev/vite-plus-core@1.1.0
   vite-plus: 1.1.0
