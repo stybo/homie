@@ -21,25 +21,6 @@ updates:
           - "minor"
           - "patch"
 
-  # Maintain Docker base images in Dockerfile
-  - package-ecosystem: "docker"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-    open-pull-requests-limit: 10
-    commit-message:
-      prefix: "chore(deps)"
-    labels:
-      - "dependencies"
-    groups:
-      docker-minor-patch:
-        patterns:
-          - "*"
-        update-types:
-          - "minor"
-          - "patch"
-
   # Maintain GitHub Actions in .github/workflows
   - package-ecosystem: "github-actions"
     directory: "/"

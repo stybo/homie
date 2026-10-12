@@ -82,4 +82,4 @@ jobs:
             ghcr.io/stybo/homie:${{ needs.tag.outputs.new_tag }}
 
       - name: Deploy to Dokploy
-        run: curl -s https://dokploy.stybo.nl/api/deploy/compose/_m3o57WZNRgPTeKtMZNHc
+        run: curl -k -f -sS -X POST https://dokploy.stybo.nl/api/deploy/compose/_m3o57WZNRgPTeKtMZNHc
