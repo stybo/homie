@@ -2,19 +2,12 @@ name: Build and Publish
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - "src/**"
-      - "public/**"
-      - "package.json"
-      - "pnpm-lock.yaml"
-      - "pnpm-workspace.yaml"
-      - "Dockerfile"
-      - "vite.config.ts"
-      - "tsconfig.json"
+  release:
+    types: [published]
 
-permissions: write-all
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   run-qa:
@@ -29,12 +22,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
 
-      - name: Compute SemVer tag
-        id: semver
-        run: node tools/semver.mjs >> $GITHUB_OUTPUT
+      - name: Compute tags
+        id: tags
+        run: |
+          TAG="${{ github.event.release.tag_name || github.ref_name }}"
+          VERSION="${TAG#v}"
+          echo "TAG=$TAG" >> $GITHUB_OUTPUT
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
@@ -43,8 +38,8 @@ jobs:
         uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         with:
           registry: ghcr.io
-          password: ${{ secrets.GITHUB_TOKEN }}
           username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
         id: build
@@ -59,13 +54,8 @@ jobs:
           provenance: false
           tags: |
             ghcr.io/stybo/homie:latest
-            ghcr.io/stybo/homie:${{ steps.semver.outputs.TAG }}
-            ghcr.io/stybo/homie:${{ steps.semver.outputs.VERSION }}
-
-      - name: Create GitHub Release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release create "${{ steps.semver.outputs.TAG }}" --generate-notes
+            ghcr.io/stybo/homie:${{ steps.tags.outputs.TAG }}
+            ghcr.io/stybo/homie:${{ steps.tags.outputs.VERSION }}
 
   deploy:
     name: Deploy to Dokploy
@@ -78,6 +68,6 @@ jobs:
         run: |
           curl -f -X POST \
             -H "Content-Type: application/json" \
-            -H "X-GitHub-Event: push" \
+            -H "X-GitHub-Event: release" \
             -d '{"ref": "${{ github.ref }}"}' \
             "$DOKPLOY_WEBHOOK_URL"

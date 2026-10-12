@@ -2,6 +2,8 @@ name: QA
 
 on:
   workflow_call:
+  push:
+    branches: [main]
   pull_request:
     branches: [main]
 
