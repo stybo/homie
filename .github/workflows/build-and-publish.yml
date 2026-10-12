@@ -49,8 +49,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh release create "${{ steps.tag.outputs.new_tag }}" --generate-notes
 
-  publish-and-deploy:
-    name: Publish & Deploy
+  publish:
+    name: Publish Image
     needs: [tag]
     if: needs.tag.outputs.new_tag != ''
     runs-on: ubuntu-latest
@@ -81,5 +81,11 @@ jobs:
             ghcr.io/stybo/homie:latest
             ghcr.io/stybo/homie:${{ needs.tag.outputs.new_tag }}
 
+  deploy:
+    name: Deploy to Dokploy
+    needs: [tag, publish]
+    if: needs.tag.outputs.new_tag != ''
+    runs-on: self-hosted
+    steps:
       - name: Deploy to Dokploy
         run: curl -k -f -sS -X POST https://dokploy.stybo.nl/api/deploy/compose/_m3o57WZNRgPTeKtMZNHc
