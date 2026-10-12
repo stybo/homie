@@ -1,5 +1,5 @@
 # --- build stage: the official Vite+ toolchain image ---
-FROM ghcr.io/voidzero-dev/vite-plus:latest AS build
+FROM ghcr.io/voidzero-dev/vite-plus:1.1.0 AS build
 WORKDIR /app
 
 # Install dependencies first so this layer is cached across source changes.

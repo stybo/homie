@@ -197,13 +197,13 @@ importers:
         specifier: ^5.104.1
         version: 5.104.1(react@19.3.0)
       '@tanstack/react-router':
-        specifier: 1.170.41
+        specifier: ^1.170.41
         version: 1.170.41(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@tanstack/react-router-ssr-query':
         specifier: ^1.167.3
         version: 1.167.3(@tanstack/query-core@5.104.1)(@tanstack/react-query@5.104.1(react@19.3.0))(@tanstack/react-router@1.170.41(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@tanstack/router-core@1.171.34)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@tanstack/react-start':
-        specifier: 1.168.60
+        specifier: ^1.168.60
         version: 1.168.60(@types/node@26.6.4)(crossws@0.4.15(srvx@1.0.5))(jiti@2.7.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(rolldown@1.2.13)(typescript@7.0.2)
       '@tanstack/start-client-core':
         specifier: ^1.170.34
@@ -270,7 +270,7 @@ importers:
         specifier: ^5.104.1
         version: 5.104.1(@tanstack/react-query@5.104.1(react@19.3.0))(@types/react@19.3.0)(csstype@3.2.3)(react@19.3.0)
       '@tanstack/react-router-devtools':
-        specifier: 1.167.2
+        specifier: ^1.167.2
         version: 1.167.2(@tanstack/react-router@1.170.41(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@tanstack/router-core@1.171.34)(csstype@3.2.3)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@types/d3-shape':
         specifier: ^3.2.0
@@ -291,7 +291,7 @@ importers:
         specifier: ^6.1.2
         version: 6.1.2(@voidzero-dev/vite-plus-core@1.1.0(@types/node@26.6.4)(jiti@2.7.0)(typescript@7.0.2))(oxc-transform-react@0.153.0)
       eslint:
-        specifier: 10.12.0
+        specifier: ^10.12.0
         version: 10.12.0(jiti@2.7.0)
       eslint-plugin-perfectionist:
         specifier: ^5.12.1
