@@ -112,7 +112,6 @@ export function Chart({ title, data, series, formatValue }: ChartProps) {
 		},
 		tooltip: {
 			anchor: { x: "point", y: "plot-top" },
-			className: chartSlots.tooltipHost(),
 			offset: 14,
 			placement: "top",
 			portal,
