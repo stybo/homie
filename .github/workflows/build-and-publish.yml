@@ -9,7 +9,11 @@ on:
       - "public/**"
       - "package.json"
       - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
       - "Dockerfile"
+      - "vite.config.ts"
+      - "tsconfig.json"
+      - ".github/workflows/**"
 
 permissions:
   contents: write
