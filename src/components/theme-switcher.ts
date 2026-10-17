@@ -19,11 +19,16 @@ export function getTimeBasedTheme(config: ThemeConfig, targetDate?: Date): "dark
 	return isDaytime ? "light" : "dark";
 }
 
-export function useAutoTheme(config: ThemeConfig) {
+export function useAutoTheme(config?: ThemeConfig | null) {
 	const { resolvedTheme, setTheme } = useTheme();
 
 	useEffect(() => {
+		if (!config) {
+			return undefined;
+		}
+
 		function updateTheme() {
+			if (!config) return;
 			const expected = getTimeBasedTheme(config);
 			if (resolvedTheme !== expected) {
 				setTheme(expected);
