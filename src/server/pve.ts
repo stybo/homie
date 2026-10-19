@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { getFallbackNodeData } from "@/server/fallback-data.ts";
 import type { ProxmoxRrdRawDataPoint, ProxmoxRrdResponse, ProxmoxTimeframe } from "@/types/index.ts";
 
 export function parseTimeframe(value?: string | null): ProxmoxTimeframe {
@@ -10,13 +11,10 @@ export function parseTimeframe(value?: string | null): ProxmoxTimeframe {
 
 export async function fetchNodeData(timeframe: ProxmoxTimeframe): Promise<ProxmoxRrdRawDataPoint[]> {
 	const token = process.env.PROXMOX_TOKEN;
-	if (!token) {
-		throw new Error("PROXMOX_TOKEN is not configured");
-	}
-
 	const baseUrl = process.env.PROXMOX_BASE_URL;
-	if (!baseUrl) {
-		throw new Error("PROXMOX_BASE_URL is not configured");
+
+	if (!token || !baseUrl) {
+		return getFallbackNodeData(timeframe);
 	}
 
 	const response = await fetch(`${baseUrl}?timeframe=${timeframe}`, {

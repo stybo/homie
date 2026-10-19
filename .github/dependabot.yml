@@ -6,8 +6,8 @@ updates:
     schedule:
       interval: "weekly"
       day: "monday"
-
-    versioning-strategy: increase
+      hour: 4
+      timezone: "UTC"
     open-pull-requests-limit: 10
     commit-message:
       prefix: "fix(deps)"
@@ -27,6 +27,8 @@ updates:
     schedule:
       interval: "weekly"
       day: "monday"
+      hour: 4
+      timezone: "UTC"
     open-pull-requests-limit: 10
     commit-message:
       prefix: "fix(deps)"

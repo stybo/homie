@@ -13,12 +13,15 @@ export interface ThemeConfig {
 	morningStartHour?: number;
 }
 
-export const fetchThemeConfigServerFn = createServerFn({ method: "GET" }).handler(async (): Promise<ThemeConfig> => {
-	const env = themeEnvSchema.parse(process.env);
+export const fetchThemeConfigServerFn = createServerFn({ method: "GET" }).handler(async (): Promise<ThemeConfig | null> => {
+	const parsed = themeEnvSchema.safeParse(process.env);
+	if (!parsed.success) {
+		return null;
+	}
 
 	return {
-		latitude: env.LATITUDE,
-		longitude: env.LONGITUDE,
-		morningStartHour: env.MORNING_START_HOUR,
+		latitude: parsed.data.LATITUDE,
+		longitude: parsed.data.LONGITUDE,
+		morningStartHour: parsed.data.MORNING_START_HOUR,
 	};
 });
