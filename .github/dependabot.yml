@@ -6,7 +6,6 @@ updates:
     schedule:
       interval: "weekly"
       day: "monday"
-      hour: 4
       timezone: "UTC"
     open-pull-requests-limit: 10
     commit-message:
@@ -27,7 +26,6 @@ updates:
     schedule:
       interval: "weekly"
       day: "monday"
-      hour: 4
       timezone: "UTC"
     open-pull-requests-limit: 10
     commit-message:
