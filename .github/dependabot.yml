@@ -7,6 +7,7 @@ updates:
       interval: "weekly"
       day: "monday"
       time: "04:00"
+      timezone: "Europe/Amsterdam"
     open-pull-requests-limit: 10
     commit-message:
       prefix: "fix(deps)"
@@ -27,6 +28,7 @@ updates:
       interval: "weekly"
       day: "monday"
       time: "04:00"
+      timezone: "Europe/Amsterdam"
     open-pull-requests-limit: 10
     commit-message:
       prefix: "fix(deps)"
