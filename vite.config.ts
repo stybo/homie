@@ -1,6 +1,7 @@
 import tailwindcss from "@tailwindcss/vite";
 import { devtools } from "@tanstack/devtools-vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import { redact } from "@tanstack/redact/vite";
 import react from "@vitejs/plugin-react";
 import { nitro } from "nitro/vite";
 import { defineConfig } from "vite-plus";
@@ -159,6 +160,7 @@ export default defineConfig({
 		}),
 		tailwindcss(),
 		react({ compiler: true }),
+		process.env.HOMIE_RUNTIME !== "react" && redact(),
 	],
 	resolve: {
 		alias: {
@@ -178,7 +180,7 @@ export default defineConfig({
 		port: 8080,
 	},
 	ssr: {
-		noExternal: ["@gravity-ui/icons"],
+		noExternal: true,
 	},
 	staged: {
 		"*": "vp check --fix",

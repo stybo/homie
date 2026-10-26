@@ -13,6 +13,7 @@
 		"@tanstack/react-router": "^1.170.45",
 		"@tanstack/react-router-ssr-query": "^1.167.3",
 		"@tanstack/react-start": "^1.169.3",
+		"@tanstack/redact": "^0.2.0",
 		"@tanstack/start-client-core": "^1.170.38",
 		"@tanstack/start-server-core": "^1.169.44",
 		"d3-shape": "^3.2.0",
