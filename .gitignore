@@ -29,6 +29,7 @@ dist-ssr
 .claude/worktrees/
 .agents/
 .gemini/
+skills/
 skills-lock.json
 AGENTS.md
 
