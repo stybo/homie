@@ -148,16 +148,7 @@ export default defineConfig({
 				},
 			},
 		}),
-		nitro({
-			hooks: {
-				"rollup:before"(_nitro, config) {
-					const groups = (config.output as { codeSplitting?: { groups?: Array<{ debugName?: string }> } })?.codeSplitting?.groups;
-					for (const group of groups ?? []) {
-						group.debugName ??= "node_modules";
-					}
-				},
-			},
-		}),
+		nitro(),
 		tailwindcss(),
 		react({ compiler: true }),
 		process.env.HOMIE_RUNTIME !== "react" && redact(),
